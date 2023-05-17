@@ -1220,6 +1220,7 @@ filter: brightness(170%);
           adventureLog += "You give the chest a good smacking. It knows what it did, it deserved that.<br>"
         }
         document.getElementById("logDisplay").innerHTML = adventureLog;
+	//return 0; //this can fix the "attack chest to reroll it" bug/feature. I leave it in on purpose
       }
       // now we check if the plaer has died in the battle
       if (playerLives == 0) {
