@@ -1042,6 +1042,14 @@ filter: brightness(170%);
           document.getElementById("logDisplay").innerHTML = adventureLog;
 
         }
+      } if (matrix[carryOverTarget[0]][carryOverTarget[1]] == 5) {
+        //make fun of barbarian
+        if (cClass == "barbarian") {
+          adventureLog += "Gronk tries to smash chest. Then Gronk tries to eat chest. Now Gronk sad.<br>"
+        }else {
+          adventureLog += "You give the chest a good smacking. It knows what it did, it deserved that.<br>"
+        }
+        document.getElementById("logDisplay").innerHTML = adventureLog;
       }
       if (playerLives == 0) {
         pauseAllAudio();
@@ -1056,12 +1064,22 @@ filter: brightness(170%);
         moveLock = true;
         reddrawDungeon();
       }
-
+    }else {
+      adventureLog += "You wiggle your weapon around in the air while making swoosh sounds with your mouth.<br>"
+      document.getElementById("logDisplay").innerHTML = adventureLog;
     }
   }
 
   function combatResolution(type) {
+
     var casting = false;
+    //make fun of barbarian
+    if (cClass == "barbarian" && type == "spell") {
+      adventureLog += "Gronk tries to use barbarian magic: he charges at the enemy with his axe screaming like a maniac.<br>"
+      document.getElementById("logDisplay").innerHTML = adventureLog;
+      type = "attack";
+    }
+
     if (equipment[0] == 0 && type == "spell") {
       adventureLog += "You have no spell. You stand around and do nothing.<br>"
       document.getElementById("logDisplay").innerHTML = adventureLog;
@@ -1089,6 +1107,8 @@ filter: brightness(170%);
       playerMana -= 1;
       finalScore += 2;
       return true;
+
+
     }else if (type == "attack") {
 
       audioslash.play();
@@ -1207,7 +1227,6 @@ filter: brightness(170%);
         adventureLog += "You found a legendary sword that was once held by a hero.<br>";
         document.getElementById("logDisplay").innerHTML = adventureLog;
         finalScore += 1;
-
 
         showOverlay("getsword");
         break;
