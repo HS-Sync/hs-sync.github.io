@@ -1,4 +1,4 @@
-# hs-sync.github.io
+# Lungeon
 A small dungeon Crawler brought to the web from the tabletop. Create with vanilla Javascript and HTML.
 
 This little game was design to be a virtual version of our tabletop pocket RPG of the same name.
@@ -10,7 +10,6 @@ Welcome to Lungeon
 ==================
 
 The tiny dungeon crawler for the small appetite
------------------------------------------------
 
 This little game was design to be a virtual version of our tabletop pocket RPG of the same name. Feel free to download the free rulebook here: [https://www.tabledropzone.com/downloads/tdz-house-rules](https://www.tabledropzone.com/downloads/tdz-house-rules)  
 In this guide we will show you the very basics of how the game is played. everthing else, you need to figure out by yourself. watch the log window for hints and easter eggs. there is a lot to discover in the tiny world of these tiny dungeons.  
