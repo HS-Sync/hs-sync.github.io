@@ -24,7 +24,7 @@ To enter a dungeon click start and then choose a class. each class has different
 
 |     |     |     |     |
 | --- | --- | --- | --- |
-| ![](Lungeon/images/Paladinbig.png)  <br>**Sir Diamondheart** | ![](Lungeon/images/Barbarianbig.png)  <br>**Gronk** | ![](Lungeon/images/Thiefbig.png)  <br>**Silk** | ![](images/Wizardbig.png)  <br>**Magus the Grandwizard of Overhelm Son of the grand mage of Undertuxton bearer of the veil, watcher of the void** |
+| ![](Lungeon/images/Paladinbig.png)  <br>**Sir Diamondheart** | ![](Lungeon/images/Barbarianbig.png)  <br>**Gronk** | ![](Lungeon/images/Thiefbig.png)  <br>**Silk** | ![](Lungeon/images/Wizardbig.png)  <br>**Magus the Grandwizard of Overhelm Son of the grand mage of Undertuxton bearer of the veil, watcher of the void** |
 | Paladin | Barbarian | Thief | Wizard |
 | This is the default class. | Gronk has axe Uahahaha. | She finds treasure where nobody else would look. | He can do magic better. |
 | Life: 3  <br>Mana: 1 | Life: 4  <br>Mana: 0 | Life: 2  <br>Mana: 1 | Life: 2  <br>Mana: 2 |
