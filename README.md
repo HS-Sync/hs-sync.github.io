@@ -24,7 +24,7 @@ To enter a dungeon click start and then choose a class. each class has different
 
 |     |     |     |     |
 | --- | --- | --- | --- |
-| ![](images/Paladinbig.png)  <br>**Sir Diamondheart** | ![](images/Barbarianbig.png)  <br>**Gronk** | ![](images/Thiefbig.png)  <br>**Silk** | ![](images/Wizardbig.png)  <br>**Magus the Grandwizard of Overhelm Son of the grand mage of Undertuxton bearer of the veil, watcher of the void** |
+| ![](Lungeon/images/Paladinbig.png)  <br>**Sir Diamondheart** | ![](Lungeon/images/Barbarianbig.png)  <br>**Gronk** | ![](Lungeon/images/Thiefbig.png)  <br>**Silk** | ![](images/Wizardbig.png)  <br>**Magus the Grandwizard of Overhelm Son of the grand mage of Undertuxton bearer of the veil, watcher of the void** |
 | Paladin | Barbarian | Thief | Wizard |
 | This is the default class. | Gronk has axe Uahahaha. | She finds treasure where nobody else would look. | He can do magic better. |
 | Life: 3  <br>Mana: 1 | Life: 4  <br>Mana: 0 | Life: 2  <br>Mana: 1 | Life: 2  <br>Mana: 2 |
@@ -35,7 +35,7 @@ Controls
 --------
 
 Once you have chosen your class, it is off to the adventure.  
-Move around using the red arrow buttons (e.g. ![](images/NW2.png)) and click ![](images/btn-ATK.png) for attacking, ![](images/btn-magic.png) for casting a spell (instant kill - if you have the spell and mana) and ![](images/btn-open.png) to open treasure chests.
+Move around using the red arrow buttons (e.g. ![](Lungeon/images/NW2.png)) and click ![](Lungeon/images/btn-ATK.png) for attacking, ![](Lungeon/images/btn-magic.png) for casting a spell (instant kill - if you have the spell and mana) and ![](Lungeon/images/btn-open.png) to open treasure chests.
 
 Battle
 ------
@@ -44,9 +44,9 @@ You will battle monsters in 3 categories:
 
 |     |     |
 | --- | --- |
-| ![](images/Skull130.png) | Slime: wipe it away with a tissue |
-| ![](images/Skull230.png) | Hulk: They only want to cuddle... I'm fairly certain |
-| ![](images/Skull330.png) | Dragon: This will leave a mark |
+| ![](Lungeon/images/Skull130.png) | Slime: wipe it away with a tissue |
+| ![](Lungeon/images/Skull230.png) | Hulk: They only want to cuddle... I'm fairly certain |
+| ![](Lungeon/images/Skull330.png) | Dragon: This will leave a mark |
 
   
 Every encounter locks the player into battle until it is initially resolved. If the player gets hurt, he can chose to avoid the monster for now and chose a different path. However, for leveling up the player will need to slay monsters.
