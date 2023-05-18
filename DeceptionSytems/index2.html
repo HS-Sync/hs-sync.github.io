@@ -1,0 +1,389 @@
+<html>
+
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
+<style>
+body {
+	background:black;
+	font-family: 'Raleway', sans-serif;
+}
+#wrapper {
+	padding: 10px;
+	text-align: center;
+	z-index: 1;
+}
+#game {
+	width:600px;
+	height:600px;
+	border:2px dashed white;
+	margin:auto;
+	display: inline-block;
+
+	z-index: 1;
+}
+#floating {
+	position: relative;
+	display: inline-block;
+	width: 0;
+	height: 0;
+	vertical-align: top
+}
+#sidebar {
+	display: inline-block;
+	position: absolute;
+	width: 300px;
+	border:2px dashed white;
+	color:white;
+	font-size: 20px;
+	padding: 5px;
+	text-align: left;
+	z-index: 1;
+}
+img{
+	max-width: 100%;
+	max-height: 100%;
+	display: block; /* remove extra space below image */
+	}
+#infotext {
+	width:700px;
+	height:80px;
+	border:2px dashed white;
+	margin:auto;
+	color:white;
+	font-size: 24px;
+	padding: 10px;
+	text-align: center;
+	z-index: 1;
+}
+area {
+	cursor: help;
+}
+
+#overlay {
+	width: 500px;
+	height:500px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	z-index: 3;
+	display: none;
+	background: white;
+	border: 2px solid red;
+	color: black;
+	text-align: left;
+	padding: 10px;
+	font-size: 20px;
+}
+
+fieldset {
+	border:2px dottet black;
+	padding:5px;
+	background: lightgrey;
+	margin-bottom: 10px;
+	font-size: 15px;
+	margin-top: 5px;
+}
+
+#endstate {
+	width: 500px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-top:100px;
+
+	margin-left: auto;
+	margin-right: auto;
+	z-index: 4;
+	display: none;
+	background: green;
+	border: 0px;
+	color: white;
+	text-align: center;
+	padding: 10px;
+	font-size: 20px;
+}
+.button {
+	background-color: #e7e7e7;
+	color: black; /* Green */
+	border: none;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+}
+#cover {
+    position:fixed;
+    padding:0;
+    margin:0;
+    display: none;
+    top:0;
+    left:0;
+	z-index: 2;
+    width: 100%;
+    height: 100%;
+    background:rgba(255,255,255,0.5);
+}
+
+</style>
+<script>
+	var cluelist = [];
+	function validateForm() {
+  		var causeofdeath = document.forms["conclusionform"]["causeofdeath"].value;
+  		var killer = document.forms["conclusionform"]["killer"].value;
+  		var corpse = document.forms["conclusionform"]["corpse"].value;
+  		if (causeofdeath != "toxin" || killer != "hatch" || corpse != "window") {
+  			document.getElementById("endstate").style.background = "#cc3300";
+			document.getElementById("endstate").innerHTML = "Your conclusions are wrong, <br><br><div style='position:relative; margin:auto; text-align:center'><a href='deceptionsystems.html' class='button'>you need to go back into the room and try again</a></div>";
+		}
+		document.getElementById("overlay").style.display = "none";
+		document.getElementById("endstate").style.display = "block";
+		return false;
+	}
+	function conclusion (){
+		document.getElementById("cover").style.display = "block";
+		document.getElementById("overlay").style.display = "block";
+	}
+	function updateclues (clue) {
+		if (cluelist.indexOf(clue) === -1) cluelist.push(clue);
+		text = "<b>Clues:</b><br>"
+		for (var i = cluelist.length - 1; i >= 0; i--) {
+			text += "<li>" + cluelist[i] + "<br>";
+		}
+		if (cluelist.length == 6) {
+			text += "<p><a href='#' onclick='conclusion()' style='color:red; font-weight: bold; text-decoration: none;'>I can now solve the mystery</a></p>"
+		}
+		document.getElementById('sidebar').innerHTML = text;
+	}
+	function textin (text){
+		document.getElementById('infotext').innerHTML = text;
+	}
+	function textout () {
+		document.getElementById('infotext').innerHTML = "You keep searching for the truth...";
+	}
+	function scene(number){
+		if (number == 1) {
+			document.getElementById('game').innerHTML = `
+			<img src="images/1.png" usemap="#clickables1" />
+			<map name="clickables1">
+				<area shape = "poly" coords ="39,290,80,303,44,324,20,307" onclick="scene(2)" onmouseover="textin('You think about searching more to the left...')" onmouseout="textout()">
+				<area shape = "poly" coords ="500,300,530,280,550,300,530,315" onclick="scene(3)" onmouseover="textin('You think about searching more to the right...')" onmouseout="textout()">
+				<area shape = "poly" coords ="16,195,277,200,282,288,18,272" onclick="scene(4)" onmouseover="textin('The dashboard looks promising...')" onmouseout="textout()">
+				<area shape = "poly" coords ="440,37,592,31,592,307,534,266,474,299,429,300" onclick="scene(8)" onmouseover="textin('If it does not contain clues, it might at least give an insight in the doctors dirty little secrets... ')" onmouseout="textout()">
+				<area shape = "poly" coords ="278,390,346,423,391,429,408,402,496,411,520,488,515,479,465,491,331,520,285,468,210,471" onclick="scene(12)" onmouseover="textin('The stiff. Not the most pleasent thing to look at, but it pays the bills...')" onmouseout="textout()">
+			</map>			`;
+			document.getElementById('infotext').innerHTML = "immediately you smell a disgusting stench in the air, in front of you: the body or Dr. Euphorbia. You look around...";
+		}
+		if (number == 2) {
+			document.getElementById('game').innerHTML = `
+			<img src="images/2.png" usemap="#clickables1" />
+			<map name="clickables1">
+				<area shape = "poly" coords ="525,336,560,316,580,334,562,353" onclick="scene(1)" onmouseover="textin('You think about searching to the right...')" onmouseout="textout()">
+				<area shape = "poly" coords ="241,258,315,237,438,249,507,197,531,247,573,252,570,312,545,309,517,330,462,336,397,316,328,326,278,375" onclick="scene(5)" onmouseover="textin('What a peculiar table...')" onmouseout="textout()">
+				<area shape = "poly" coords ="338,333,403,324,537,367,536,473,372,442,335,422" onmouseover="textin('The chair fell over. He must have gotten up in a hurry, or scared for his life...')" onmouseout="textout()">
+				<area shape = "poly" coords ="0,0,90,0,110,600,0,600" onclick="scene(6)" onmouseover="textin('Lets look at the bookshelf. I would not want to be the one to reorder these...')" onmouseout="textout()">
+				<area shape = "poly" coords ="95,85,228,95,230,246,103,250" onclick="scene(9)" onmouseover="textin('What a strange window. I should have a closer look at it...')" onmouseout="textout()">
+				<area shape = "poly" coords ="534,114,600,118,600,237,528,236" onclick="scene(10)" onmouseover="textin('What a strange window. I should have a closer look at it...')" onmouseout="textout()">
+				`;
+			document.getElementById('infotext').innerHTML = "immediately you smell a disgusting stench in the air, in front of you: the body or Dr. Euphorbia. You look around...";
+		}
+		if (number == 3) {
+			document.getElementById('game').innerHTML = `
+			<img src="images/3.png" usemap="#clickables1" />
+			<map name="clickables1">
+				<area shape = "poly" coords ="16,336,44,306,77,322,46,351" onclick="scene(1)" onmouseover="textin('You think about searching to the left...')" onmouseout="textout()">
+				<area shape = "poly" coords ="78,419,126,383,140,271,165,65,218,56,243,440,94,447" onclick="scene(7)" onmouseover="textin('A warm fireplace, the fire is still burning. I should have a look...')" onmouseout="textout()">
+				<area shape = "poly" coords ="0,124,121,130,108,370,0,378,88,322,45,290,0,315" onclick="scene(8)" onmouseover="textin('If it does not contain clues, it might at least give an insight in the doctors dirty little secrets... ')" onmouseout="textout()">
+				<area shape = "poly" coords ="293,93,439,28,435,314,296,294" onclick="scene(11)" onmouseover="textin('This window seems different. I should have a look...')" onmouseout="textout()">
+				`;
+			document.getElementById('infotext').innerHTML = "immediately you smell a disgusting stench in the air, in front of you: the body or Dr. Euphorbia. You look around...";
+		}
+		if (number == 4) {
+			document.getElementById('game').innerHTML = `
+			<img src="images/4.png" usemap="#clickables1" />
+			<map name="clickables1">
+				<area shape = "poly" coords ="261,524,287,502,310,527,287,548" onclick="scene(1)" onmouseover="textin('Maybe I should search somewhere else...')" onmouseout="textout()">
+				<area shape = "poly" coords ="259,303,311,296,385,300,382,317,374,327,294,323" onclick="updateclues('Hippomane mancinella')" onmouseover="textin('A book on trees, there is a marking on the page about the Hippomane mancinella, the tree of death. <b> This is a clue</b>...')" onmouseout="textout()">
+				<area shape = "poly" coords ="0,366,73,374,76,425,0,419" onmouseover="textin('The drawer is stuck. Maybe the artist was to lazy to animate it.')" onmouseout="textout()">
+				<area shape = "poly" coords ="92,375,453,400,450,460,93,426" onmouseover="textin('Will not budge. There is probably nothing in here.')" onmouseout="textout()">
+				<area shape = "poly" coords ="475,401,600,408,600,474,471,462" onmouseover="textin('This super interesting... better keep it just for myself.')" onmouseout="textout()">
+				<area shape = "poly" coords ="144,329,185,240,225,331,202,340" onmouseover="textin('Just a candle - not in the wind though.')" onmouseout="textout()">
+				<area shape = "poly" coords ="474,348,515,255,551,353" onmouseover="textin('The doc was either a romantic or Dracula.')" onmouseout="textout()">
+				<area shape = "poly" coords ="0,270,111,276,114,331,0,329" onmouseover="textin('Gone with wolves, IT - a book about computers... nothing of interest.')" onmouseout="textout()">
+				`;
+			document.getElementById('infotext').innerHTML = "immediately you smell a disgusting stench in the air, in front of you: the body or Dr. Euphorbia. You look around...";
+		}
+		if (number == 5) {
+			document.getElementById('game').innerHTML = `
+			<img src="images/5.png" usemap="#clickables1" />
+			<map name="clickables1">
+				<area shape = "poly" coords ="265,515,287,489,314,515,289,536" onclick="scene(2)" onmouseover="textin('There seems to be nothing here. I should go somewhere else.')" onmouseout="textout()">
+				<area shape = "poly" coords ="114,280,195,279,199,304,186,311,118,311" onmouseover="textin('A box of cigars. I might help myself later.')" onmouseout="textout()">
+				<area shape = "poly" coords ="222,312,222,282,243,281,240,312" onmouseover="textin('A glas of water, seems half empty. At least he died hydrated.')" onmouseout="textout()">
+				<area shape = "poly" coords ="448,311,490,220,531,316" onmouseover="textin('Who put all these candles here?')" onmouseout="textout()">
+				`;
+			document.getElementById('infotext').innerHTML = "immediately you smell a disgusting stench in the air, in front of you: the body or Dr. Euphorbia. You look around...";
+		}
+		if (number == 6) {
+			document.getElementById('game').innerHTML = `
+			<img src="images/6.png" usemap="#clickables1" />
+			<map name="clickables1">
+				<area shape = "poly" coords ="14,323,47,290,73,321,43,344" onclick="scene(2)" onmouseover="textin('Getting dizzy from all this knowledge. Better look somewhere else.')" onmouseout="textout()">
+				<area shape = "poly" coords ="0,60,278,94,280,280,0,285" onmouseover="textin('Catcher in the animal farm, the old man and the martian, Chonicles of Uranus, Do Androids dream of the time machine... no clues here')" onmouseout="textout()">
+				<area shape = "poly" coords ="294,135,488,152,489,256,292,263" onmouseover="textin('Books about plants and trees, one seems to be missing...')" onmouseout="textout()">
+				<area shape = "poly" coords ="289,282,485,277,489,318,361,346,360,405,300,420" onmouseover="textin('My nightmare... taxes and bills...')" onmouseout="textout()">
+				<area shape = "poly" coords ="364,358,439,351,451,390,379,404" onmouseover="textin('A safe, I do not have the combination...')" onmouseout="textout()">
+				<area shape = "poly" coords ="0,356,93,345,88,305,276,299,279,421,0,461" onmouseover="textin('Books about poisons and plant defences... he had some strange interests...')" onmouseout="textout()">
+				`;
+			document.getElementById('infotext').innerHTML = "immediately you smell a disgusting stench in the air, in front of you: the body or Dr. Euphorbia. You look around...";
+		}
+		if (number == 7) {
+			document.getElementById('game').innerHTML = `
+			<img src="images/7.png" usemap="#clickables1" />
+			<map name="clickables1">
+				<area shape = "poly" coords ="499,312,540,293,564,311,545,343" onclick="scene(3)" onmouseover="textin('The heat is getting to me, I should look somewhere else.')" onmouseout="textout()">
+				<area shape = "poly" coords ="244,298,354,310,354,377,236,369" onmouseover="textin('The fire is too bright to see anything. The wood is almost totally burned.')" onmouseout="textout()">
+				<area shape = "poly" coords ="58,310,151,305,145,370,62,374" onclick="updateclues('different types of wood.')" onmouseover="textin('It seems there are two different types of wood. One is only on top. <b>This is a clue</b>...')" onmouseout="textout()">
+				<area shape = "poly" coords ="244,0,246,149,353,153,355,0" onmouseover="textin('That is a very tight chimney. Nothing can come through here.')" onmouseout="textout()">
+				`;
+			document.getElementById('infotext').innerHTML = "immediately you smell a disgusting stench in the air, in front of you: the body or Dr. Euphorbia. You look around...";
+		}
+		if (number == 8) {
+			document.getElementById('game').innerHTML = `
+			<img src="images/8.png" usemap="#clickables1" />
+			<map name="clickables1">
+				<area shape = "poly" coords ="289,549,310,522,333,551,314,577" onclick="scene(3)" onmouseover="textin('I should go somewhere else.')" onmouseout="textout()">
+				<area shape = "poly" coords ="310,158,421,158,422,505,310,505" onmouseover="textin('Who is this hansome devil... that needs a shower and a clean set of clothes.')" onmouseout="textout()">
+				<area shape = "poly" coords ="211,158,310,158,310,505,222,507" onmouseover="textin('Suits, hats, socks... nothing of interest.')" onmouseout="textout()">
+				<area shape = "poly" coords ="421,158,510,158,510,500,426,503" onmouseover="textin('Shoes, shoes, shoes... who has so many shoes?')" onmouseout="textout()">
+				<area shape = "poly" coords ="14,567,44,534,191,534,191,566" onclick="updateclues('Skidmarks on the floor')" onmouseover="textin('Skidmarks, has the closet been moved? If so, I need to find the machanism. <b>This is a clue</b>...')" onmouseout="textout()">
+				<area shape = "poly" coords ="538,322,554,323,554,360,538,360" onclick="scene(14)" onmouseover="textin('Something is here, feels like a button.')" onmouseout="textout()">
+				`;
+			document.getElementById('infotext').innerHTML = "immediately you smell a disgusting stench in the air, in front of you: the body or Dr. Euphorbia. You look around...";
+		}
+		if (number == 9) {
+			document.getElementById('game').innerHTML = `
+			<img src="images/9.png" usemap="#clickables1" />
+			<map name="clickables1">
+				<area shape = "poly" coords ="228,518,249,494,272,514,252,550" onclick="scene(2)" onmouseover="textin('I should keep searching somewhere else.')" onmouseout="textout()">
+				<area shape = "poly" coords ="68,151,443,97,445,506,68,463" onmouseover="textin('The window is embedded in the cement. There is no why to open it.')" onmouseout="textout()">
+				`;
+			document.getElementById('infotext').innerHTML = "immediately you smell a disgusting stench in the air, in front of you: the body or Dr. Euphorbia. You look around...";
+		}
+		if (number == 10) {
+			document.getElementById('game').innerHTML = `
+			<img src="images/10.png" usemap="#clickables1" />
+			<map name="clickables1">
+				<area shape = "poly" coords ="40,302,70,285,98,301,70,327" onclick="scene(2)" onmouseover="textin('I should keep searching in another area.')" onmouseout="textout()">
+				<area shape = "poly" coords ="192,43,572,143,586,481,189,539" onmouseover="textin('This window is part of the wall. There is no why to open it.')" onmouseout="textout()">
+				`;
+			document.getElementById('infotext').innerHTML = "immediately you smell a disgusting stench in the air, in front of you: the body or Dr. Euphorbia. You look around...";
+		}
+		if (number == 11) {
+			document.getElementById('game').innerHTML = `
+			<img src="images/11.png" usemap="#clickables1" />
+			<map name="clickables1">
+				<area shape = "poly" coords ="280,501,316,476,340,505,309,532" onclick="scene(3)" onmouseover="textin('I need to look elsewhere.')" onmouseout="textout()">
+				<area shape = "poly" coords ="105,81,508,107,498,420,116,442" onclick="updateclues('Only one openable window')" onmouseover="textin('This window can be opened. In fact it is the only window that can be opened. <b>This is a clue</b>...')" onmouseout="textout()">
+				`;
+			document.getElementById('infotext').innerHTML = "immediately you smell a disgusting stench in the air, in front of you: the body or Dr. Euphorbia. You look around...";
+		}
+		if (number == 12) {
+			document.getElementById('game').innerHTML = `
+			<img src="images/12.png" usemap="#clickables1" />
+			<map name="clickables1">
+				<area shape = "poly" coords ="238,505,268,479,294,507,268,534" onclick="scene(1)" onmouseover="textin('Not a nice sight. I should look elsewhere.')" onmouseout="textout()">
+				<area shape = "poly" coords ="0,299,0,272,111,182,195,187,94,313" onmouseover="textin('He dragged himself here. Why?')" onmouseout="textout()">
+				<area shape = "poly" coords ="415,298,410,343,436,367,463,373,461,336,438,302" onclick="updateclues('Victim inhaled toxin')" onmouseover="textin('He spit out blood, looks like the lungs are damaged. He inhaled in something toxic <b>This is a clue</b>...')" onmouseout="textout()">
+				`;
+			document.getElementById('infotext').innerHTML = "immediately you smell a disgusting stench in the air, in front of you: the body or Dr. Euphorbia. You look around...";
+		}
+		if (number == 14) {
+			document.getElementById('game').innerHTML = `
+			<img src="images/14.png" usemap="#clickables1" />
+			<map name="clickables1">
+				<area shape = "poly" coords ="300,521,323,486,352,516,329,546" onclick="scene(8)" onmouseover="textin('This very interesting. Maybe I can find more clues somewhere else?')" onmouseout="textout()">
+				<area shape = "poly" coords ="444,211,542,211,542,308,444,308" onclick="updateclues('Secret hatch')" onmouseover="textin('There is a secret hatch in the wall. Not big enough for a human to enter, but maybe to put something in the room? <b>This is a clue</b>...')" onmouseout="textout()">
+				`;
+			document.getElementById('infotext').innerHTML = "immediately you smell a disgusting stench in the air, in front of you: the body or Dr. Euphorbia. You look around...";
+		}
+	}
+</script>
+
+</head>
+
+<body>
+<div id="cover">
+</div>
+<div id="endstate">
+Congratulations, you have sucessfully unravled the mystery.
+<br><br>
+<a href='deceptionsystems.html' class='button'>you can try again if you want</a>
+</div>
+<div id="overlay">
+
+	<b>Your Solution:</b>
+	<form name="conclusionform" action="#" onsubmit="return validateForm()">
+		Dr. Euphorbia died of
+		<fieldset>
+			<input type="radio" id="stab" name="causeofdeath" value="stab">
+    		<label for="stab"> stab wound from a knife</label> <br>
+    		<input type="radio" id="toxin" name="causeofdeath" value="toxin">
+    		<label for="toxin"> inhaling toxin from burning wood</label><br>
+    		<input type="radio" id="poison" name="causeofdeath" value="poison">
+    		<label for="poison"> poison from a drink</label> <br>
+    		<input type="radio" id="unknown" name="causeofdeath" value="unknown">
+    		<label for="unknown"> unknown</label>
+    	</fieldset>
+		The killer reached him by
+		<fieldset>
+			<input type="radio" id="door" name="killer" value="door">
+    		<label for="door"> entering the room through the door</label> <br>
+    		<input type="radio" id="hatch" name="killer" value="hatch">
+    		<label for="hatch"> throwing toxic wood into the room through the hatch</label><br>
+    		<input type="radio" id="chimney" name="killer" value="chimney">
+    		<label for="chimney"> coming in through the chimney</label> <br>
+    		<input type="radio" id="unknown" name="killer" value="unknown">
+    		<label for="unknown"> unknown</label>
+    	</fieldset>
+		The corpse was positioned in that way because
+		<fieldset>
+			<input type="radio" id="window" name="corpse" value="window">
+    		<label for="window"> he tried to reach the only openable window</label><br>
+    		<input type="radio" id="killer" name="corpse" value="killer">
+    		<label for="killer"> he was put there by the killer</label><br>
+    		<input type="radio" id="explosion" name="corpse" value="explosion">
+    		<label for="explosion"> of to the blast of the explosion</label><br>
+    		<input type="radio" id="unknown" name="corpse" value="unknown">
+    		<label for="unknown"> unknown</label>
+    	</fieldset>
+    	<div style="position:relative; margin:auto; text-align:center">
+    	<input type="submit" name="Solve the Mystery" class='button'>
+    	</div>
+	</form>
+</div>
+<div id="wrapper">
+	<div id="game">
+		<img src="images/Enter the door.png" usemap="#clickables1" />
+		<map name="clickables1">
+			<area shape = "poly" coords ="141,403,190,408,197,430,170,434,171,453,144,454" onclick="scene(1)" onmouseover="textin('No turning back now. I take the doorknob and prepare to enter the room...')" onmouseout="textout()">
+		</map>
+	</div>
+	<div id="floating">
+        <div id="sidebar">
+        	<b>Clues:</b>
+        	<br>CLICK ON CLUES TO ADD THEM TO THE LIST
+        </div>
+    </div>
+</div>
+<p></p>
+<div id="infotext">
+
+I keep searching for the truth...
+
+</div>
+
+</body>
+</html>

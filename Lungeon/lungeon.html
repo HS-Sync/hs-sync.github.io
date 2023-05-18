@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  table{
+    border:1px solid black;
+  }
+  td{
+    width:30px;
+    height:30px;
+  }
+  div{
+    border:0px solid black;
+  }
+  #frame {
+    width:1024px;
+    margin:auto;
+  }
+
+  #startimgdisplay {
+  position:relative;
+  width:1024px;
+  height:576px;
+  margin:0 auto;
+  }
+
+  /* #startimgdisplay img {
+  position:absolute;
+  left:0;
+  -webkit-transition: opacity 1s ease-in-out;
+  -moz-transition: opacity 1s ease-in-out;
+  -o-transition: opacity 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
+  }
+
+#startimgdisplay img.top:hover {
+  opacity:0;
+}*/
+#dashboard {
+  position:absolute;
+  margin:auto;
+  width:1024px;
+  background-image: url("images/wall1.jpg");
+}
+#logDisplay{
+  height:226px;
+  overflow-y:hidden;
+  flex-direction:column-reverse;
+  display:flex;
+  padding-left:35px;
+  color:lightgray;
+  margin-top:20px;
+}
+.maptable {
+  border:1px solid #5a5a5a;
+  background:#5a5a5a;
+}
+.maptable td{
+  width:37px;
+  height:37px;
+}
+.directionalbutton {
+  background-color: transparent;
+  border:0;
+  margin:0;
+}
+.directionalbuttonimg {
+  width: 45px;
+  heigh: 40px;
+}
+.directionalbuttonimg:active {
+  width: 40px;
+  heigh: 35px;
+  filter: drop-shadow(0 0 0 yellow);
+  transition: filter 0s;
+}
+
+#imgmotherframe {
+  position:relative;
+  padding:auto;
+  height:576px;
+}
+
+#imgoverlay {
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  width:300px;
+  height:200px;
+  z-index:2;
+  visibility:visible;
+  opacity:1;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  -moz-transition: opacity 0.2s ease-in-out;
+  -o-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+  text-align:center;
+}
+#imgdisplay {
+  position:absolute;
+  z-index:1;
+}
+#startbutton {
+  -webkit-transition: filter 0.4s ease-in-out;
+  -moz-transition: filter 0.4s ease-in-out;
+  -o-transition: filter 0.4s ease-in-out;
+  transition: filter 0.4s ease-in-out;
+  filter: brightness(90%);
+}
+#startbutton:hover{
+filter: brightness(170%);
+}
+
+#Handbook {
+  position:absolute;
+  margin-top: 300px;
+  width: 980px;
+  background: #666666;
+  color:#efefef;
+  padding:20px;
+  /*font-family: 'Brush Script MT', cursive;
+  font-size: 15pt;*/
+  font-family: 'Courier New', monospace;
+}
+#Handbook h1, h2{
+  text-align:center;
+
+}
+#Handbook table{
+  margin-left: auto;
+  margin-right: auto;
+}
+#Handbook a{
+  color: yellow;
+  text-decoration:none;
+  font-weight: bold;
+}
+
+</style>
+</head>
+<body bgcolor="#000000">
+<div id="frame"><div id="imgmotherframe">
+  <div id="imgdisplay"><div id="startimgdisplay"><img src='images/entrance2.jpeg' id='entrance' class="top"></div></div>
+  <div id="imgoverlay"><button type="button" name="button" onclick="startGame();" class="directionalbutton" id="startbutton"><img src='images/Start.png'></button>
+  </div></div>
+<div id="dashboard">
+  <table style="border:0px;">
+    <tr><td style="width:255px;text-align:center;padding-left:5px">
+      <div id="map"></div>
+    </td><td style="width:350px;background-image: url('images/log2.png');background-repeat: no-repeat;">
+      <div id="logDisplay"></div></td><td style="width:200px;text-align:center;">
+        <div id="move">
+          <table style="border:0px;"><tr><td>
+          <button type="button" name="button" onclick="movePlayer('NW')" class="directionalbutton"><img src='images/NW2.png' class="directionalbuttonimg"></button></td><td>
+          <button type="button" name="button" onclick="movePlayer('N')" class="directionalbutton"><img src='images/N2.png' class="directionalbuttonimg"></button></td><td>
+          <button type="button" name="button" onclick="movePlayer('NE')" class="directionalbutton"><img src='images/NE2.png' class="directionalbuttonimg"></button></td></tr><tr><td>
+          <button type="button" name="button" onclick="movePlayer('W')" class="directionalbutton"><img src='images/W2.png' class="directionalbuttonimg"></button></td><td></td><td>
+          <button type="button" name="button" onclick="movePlayer('E')" class="directionalbutton"><img src='images/E2.png' class="directionalbuttonimg"></button></td></tr><tr><td>
+          <button type="button" name="button" onclick="movePlayer('SW')" class="directionalbutton"><img src='images/SW2.png' class="directionalbuttonimg"></button></td><td>
+          <button type="button" name="button" onclick="movePlayer('S')" class="directionalbutton"><img src='images/S2.png' class="directionalbuttonimg"></button></td><td>
+          <button type="button" name="button" onclick="movePlayer('SE')" class="directionalbutton"><img src='images/SE2.png' class="directionalbuttonimg"></button></td></tr></table>
+        </div><p></p>
+        <div id="action">
+
+          <table style="border:0px;margin:auto"><tr><td style="text-align:center; height:43px; width:60px;">
+          <button type="button" name="button" onclick="combat('attack')" class="directionalbutton"><img src='images/btn-ATK.png' class="directionalbuttonimg"></button></td><td style="text-align:center; height:43px; width:60px;">
+          <button type="button" name="button" onclick="combat('spell')" class="directionalbutton"><img src='images/btn-magic.png' class="directionalbuttonimg"></button></td></tr><tr><td colspan="2" style="text-align:center; height:46px;">
+          <button type="button" name="button" onclick="openTreasure()" class="directionalbutton"><img src='images/btn-open.png' class="directionalbuttonimg"></button></td></tr></table>
+        </div></td><td style="width:150px;background-image: url('images/parchmentINV3.png');background-repeat: no-repeat; padding-left:35px;padding-right:20px;vertical-align:top; padding-top:30px;" >
+          <div id="hud"><img src='images/stats.png'><br><span style="color:white;">Here you can keep track of your character stats.</span>
+
+          </div>
+          <div id="equipmentDisplay"><img src='images/inventory.png'><br><span style="color:white;">Here your inventory will be displayed.</span></div>
+        </td></tr></table>
+      </div>
+
+      <div id="Handbook">
+
+        <h1>Welcome to Lungeon</h1>
+        <h2>The tiny dungeon crawler for the small appetite</h2>
+        <p>
+          This little game was design to be a virtual version of our tabletop pocket RPG of the same name. Feel free to download the free rulebook here: <a href="https://www.tabledropzone.com/downloads/tdz-house-rules" target="_blank">https://www.tabledropzone.com/downloads/tdz-house-rules</a><br>
+          In this guide we will show you the very basics of how the game is played. everthing else, you need to figure out by yourself. watch the log window for hints and easter eggs. there is a lot to discover in the tiny world of these tiny dungeons.
+          <br>
+          <h2>Gettig started</h2>
+          To enter a dungeon click start and then choose a class. each class has different attributes:<br><br>
+          <table>
+            <tr><td style="text-align:center; width:150px; vertical-align:top;">
+              <img src='images/Paladinbig.png'><br>
+              <b>Sir Diamondheart</b>
+            </td><td style="text-align:center; width:150px; vertical-align:top;">
+              <img src='images/Barbarianbig.png'><br>
+              <b>Gronk</b>
+            </td><td style="text-align:center; width:150px; vertical-align:top;">
+              <img src='images/Thiefbig.png'><br>
+              <b>Silk</b>
+            </td><td style="text-align:center; width:150px; vertical-align:top;">
+              <img src='images/Wizardbig.png'><br>
+              <b>Magus the Grandwizard of Overhelm Son of the grand mage of Undertuxton bearer of the veil, watcher of the void</b>
+            </td></tr>
+            <tr><td style="text-align:center; width:150px; vertical-align:top;">
+              Paladin
+            </td><td style="text-align:center; width:150px; vertical-align:top;">
+              Barbarian
+            </td><td style="text-align:center; width:150px; vertical-align:top;">
+                Thief
+            </td><td style="text-align:center; width:150px; vertical-align:top;">
+                Wizard
+            </td></tr>
+            <tr><td style="text-align:left; width:150px; vertical-align:top;">
+              This is the default class.
+            </td><td style="text-align:left; width:150px; vertical-align:top;">
+              Gronk has axe Uahahaha.
+            </td><td style="text-align:left; width:150px; vertical-align:top;">
+                She finds treasure where nobody else would look.
+            </td><td style="text-align:left; width:150px; vertical-align:top;">
+                He can do magic better.
+            </td></tr>
+            <tr><td style="text-align:left; width:150px; vertical-align:top;">
+                Life: 3<br>Mana: 1
+            </td><td style="text-align:left; width:150px; vertical-align:top;">
+                Life: 4<br>Mana: 0
+            </td><td style="text-align:left; width:150px; vertical-align:top;">
+                  Life: 2<br>Mana: 1
+            </td><td style="text-align:left; width:150px; vertical-align:top;">
+                  Life: 2<br>Mana: 2
+            </td></tr>
+          </table>
+            <br>
+
+            <h2>Controls</h2>
+            Once you have chosen your class, it is off to the adventure.<br>
+            Move around using the red arrow buttons (e.g. <img src='images/NW2.png' style="width:30px;heigh: 25px;">) and click <img src='images/btn-ATK.png' style="width:30px;heigh: 25px;"> for attacking, <img src='images/btn-magic.png' style="width:30px;heigh: 25px;"> for casting a spell (instant kill - if you have the spell and mana) and <img src='images/btn-open.png' style="width:30px;heigh: 25px;"> to open treasure chests.
+
+            <h2>Battle</h2>
+            You will battle monsters in 3 categories: <br>
+              <table>
+                <tr><td style="vertical-align:center;"><img src='images/Skull130.png'></td><td style="vertical-align:center;width:520px">Slime: wipe it away with a tissue</td></tr>
+                <tr><td style="vertical-align:center;"><img src='images/Skull230.png'></td><td style="vertical-align:center;width:520px">Hulk: They only want to cuddle... I'm fairly certain</td></tr>
+                <tr><td style="vertical-align:center;"><img src='images/Skull330.png'></td><td style="vertical-align:center;width:520px">Dragon: This will leave a mark</td></tr>
+              </table>
+            <br>
+            Every encounter locks the player into battle until it is initially resolved. If the player gets hurt, he can chose to avoid the monster for now and chose a different path. However, for leveling up the player will need to slay monsters
+
+            <h2>Levelup</h2>
+            Prog stand for progress and gets a bar every time a monster is slain. Once 3 monsters are slayn the plaer gains one level. This makes fights easier
+
+            <h2>Treasure</h2>
+            You will com across tresure chests. here and there and everywhere. Open them using "OPN" and be surprised what you can find.<br>
+            ... and no Gronk, you cannot eat them! <br>
+            (the exact information is in the rulebook).
+
+            <h1>Enjoy the little game and join us on our YouTube channel <a href="https://www.youtube.com/@tabledropzone">https://www.youtube.com/@tabledropzone</a>, where we discuss this game and so much more!</h1>
+
+        </p>
+      </div>
+    </div>
+
+<script>
+  //basic variables
+  // the matrix is the dungeon map
+  var matrix = [
+  [0,0,0,0,0,0],
+  [0,0,0,0,0,0],
+  [0,0,0,0,0,0],
+  [0,0,0,0,0,0],
+  [0,0,0,0,0,0],
+  [0,0,0,0,0,0]
+  ];
+  var currentPosition=[0,0]; //will contain the current position of the player
+  var carryOverTarget=[7,7]; // if the player has an encouter with a monster or treasure, then the player sprinte remains on the previous field until the encounter is resolved. This variable stored the coordinated where the encounter is, so the player character can move there automatically afterwards.
+  var playerLVL = 1; //level
+  var playerlvlP = 0; //level progression
+  var playerLives = 3;
+  var maxLives = 3;
+  var playerMana = 1;
+  var maxMana = 1;
+  var equipment = [0,0,0,0]; //inventory [spell, shield, sword, macguffin]
+  var moveLock = true; // the first encounter is a must to resolve. movelock allows control over weather or not the player is allowed to move at all
+  var adventureLog = ""; // falvourtext. unnecessary but the old games had it and I like it, so it is here ;)
+  var gameHasStarted = false; //tell us weather the game is running or not.
+  var finalScore = 0; // to give it replay value. this scoring could use a lot of tweaking
+  var cClass = 'paladin'; // the character class. by default is it paladin. This is necessary for some character specific functions
+  var reachableTileCounter = 0; // stores the total amount of reachable tiles. This is determined in checkDungeon() and is necessary for the completion ending
+
+  //Create audio assets
+  var startclick = new Audio('sound/startclick.mp3');
+  var audiofrontdoor = new Audio('sound/frontdoor1.mp3');
+  var audiosteps = new Audio('sound/steps2.m4a');
+  var audioslime = new Audio('sound/slime.mp3');
+  var audiohulk = new Audio('sound/hulk.mp3');
+  var audiodragon = new Audio('sound/dragon.mp3');
+  var audiomonsterkill = new Audio('sound/monsterkill1.mp3');
+  var audiohurt = new Audio('sound/hurt.m4a');
+  var audioplayerdeath = new Audio('sound/playerdeath.m4a');
+  var audiospell = new Audio('sound/lightning.mp3');
+  var audioslash = new Audio('sound/slash.mp3');
+  var audiolvlup = new Audio('sound/lvlupfanfare.mp3');
+  var audiotreasure = new Audio('sound/treasureah.mp3');
+  var audiowin = new Audio('sound/winfanfare.mp3');
+  var audiotreasurefind = new Audio('sound/treasure.mp3');
+  var audiobgm = new Audio('sound/bgm2.mp3');
+  audiobgm.loop = true;
+  audiobgm.volume = 0.3;
+  // create beginning soundbits
+  var audiopaladin = new Audio('sound/paladinsb.mp3');
+  var audiobarbarian = new Audio('sound/barbariansb.mp3');
+  var audiowizard = new Audio('sound/wizardsb.mp3');
+  var audiothief = new Audio('sound/thiefsb1.mp3');
+
+  //Create all icon Assets
+  var icnhero = "<img src='images/Paladin30.png'>";
+  var incstats = "<img src='images/stats.png'>";
+  var increstart = "<img src='images/Restart.png'>";
+  var inclife = "<img src='images/life.png'>";
+  var incmana = "<img src='images/mana.png'>";
+  var inclvl = "<img src='images/lvl.png'>";
+  var incprog = "<img src='images/prog.png'>";
+  var icnlvlpoint = "<img src='images/lvlpoint.png'>";
+  var icnmanapoint = "<img src='images/manapoint.png'>";
+  var icnlifepoint = "<img src='images/lifepoint.png'>";
+  var icnskull1 = "<img src='images/Skull130.png'>";
+  var icnskull2 = "<img src='images/Skull230.png'>";
+  var icnskull3 = "<img src='images/Skull330.png'>";
+  var icnchest = "<img src='images/chest30.png'>";
+  var icninventory = "<img src='images/inventory.png'>";
+  var icnspell = "<img src='images/spell2.png'>";
+  var icnshield = "<img src='images/shield2.png'>";
+  var icnsword = "<img src='images/sword2.png'>";
+  //Create all image Assets
+  var imgdeath = "<img src='images/death1GO.jpeg' onclick='location.reload()'>";
+  var imgwin1 = "<img src='images/win1GO.jpeg' onclick='location.reload()'>";
+  var imgwin2 = "<img src='images/win2GO.jpeg' onclick='location.reload()'>";
+  var imgtreasure1 = "<img src='images/treasure1.jpeg'>";
+  var imgtreasure2 = "<img src='images/treasure2.jpeg'>";
+  var imgtreasure3 = "<img src='images/treasure3.jpeg'>";
+  var imgtreasure4 = "<img src='images/treasure4.jpeg'>";
+  var imgmonster1 = "<img src='images/Monster1.jpeg'>";
+  var imgmonster2 = "<img src='images/Monster2.jpeg'>";
+  var imgmonster3 = "<img src='images/Monster3.jpeg'>";
+  var imgmonster4 = "<img src='images/Monster4.jpeg'>";
+  var imgmonster5 = "<img src='images/Monster5.jpeg'>";
+  var imgmonster6 = "<img src='images/Monster6.jpeg'>";
+  var imgmonster7 = "<img src='images/Monster7.jpeg'>";
+  var imgmonster8 = "<img src='images/Monster8.jpeg'>";
+  var imgmonster9 = "<img src='images/Monster9.jpeg'>";
+  var imgmonster10 = "<img src='images/Monster10.jpeg'>";
+  var imgmonster11 = "<img src='images/Monster11.jpeg'>";
+  var imgmonster12 = "<img src='images/Monster12.jpeg'>";
+  var imgroomsplat = "<img src='images/room5splatter.jpeg'>";
+  var imgentrance1 = "<img src='images/entrance2ST.jpeg'>";
+  var imgentrance2 = "<img src='images/entrance2.jpeg'>";
+  var imgroom6 = "<img src='images/room6.jpeg'>";
+  var imgroom4 = "<img src='images/room4.jpeg'>";
+  var imgroom2 = "<img src='images/room2.jpeg'>";
+  var imgroom1 = "<img src='images/room1.jpeg'>";
+  var imgroom3 ="<img src='images/room3.jpeg'>";
+  var imgbloodsplat = "<img src='images/bloodsplat.png'>";
+  var imgswordstrike = "<img src='images/swordstrike.png'>";
+  var imgspellcast = "<img src='images/spellcast.png'>";
+  var imggethealthpotion = "<img src='images/gethealthpotion.png'>";
+  var imggetmanapotion = "<img src='images/getmanapotion.png'>";
+  var imggetsword = "<img src='images/getsword.png'>";
+  var imggetshield = "<img src='images/getshield.png'>";
+  var imggetspell = "<img src='images/getspell.png'>";
+  //Create the tileset. these are different. It would be beasy to create different sets of tiles here
+  var imgdarktile = 'images/imgdarktile.png';
+  var imglighttile = 'images/imglighttile.png';
+  var imgwalltile = 'images/imgwalltile.png';
+
+  // the sleep function. Some cool stuff I found on Stackoverflow
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms)); // useage: await sleep(<duration>); //id: imgoverlay
+  }
+  // this function exchanges the start button for the character choice button
+  function startGame() {
+    startclick.play();
+    var startscreen = '<br><span style="color:white;font-size:20;font-weight:bold;">Choose your Character</span><br><img src="images/Paladinbig.png" style="opacity:1;background:rgba(85.5, 242.5, 244.9, 0.5);margin-left:-7px;" id="chosepaladin" onmouseover="chosehighlight(\'paladin\');" onclick="chosecharacter(\'paladin\');">  <img src="images/Barbarianbig.png" style="opacity:0.6;background:rgba(85.5, 242.5, 244.9, 0.5);" id="chosebarbarian" onmouseover="chosehighlight(\'barbarian\')" onclick="chosecharacter(\'barbarian\')"> <br> <img src="images/Thiefbig.png" style="opacity:0.6;background:rgba(85.5, 242.5, 244.9, 0.5);" id="chosethief" onmouseover="chosehighlight(\'tief\')" onclick="chosecharacter(\'tief\')"> <img src="images/Wizardbig.png" style="opacity:0.6;background:rgba(85.5, 242.5, 244.9, 0.5);" id="chosewizard" onmouseover="chosehighlight(\'wizard\')" onclick="chosecharacter(\'wizard\')">"';
+    document.getElementById("imgoverlay").innerHTML = startscreen;
+  }
+
+  // initiate everything necessaryfor the dungeon to exist:
+  function createDungeon() {
+    // start music
+    audiobgm.play();
+    // play intro soundbit
+    audiofrontdoor.play();
+    // place 10 walls (if walls overlap, then it will show less)
+    for (let i = 0; i < 10; i++) {
+      var x = Math.floor(Math.random() * 6);
+      var y = Math.floor(Math.random() * 6);
+      matrix[y][x] = 1;
+    }
+    // show the first room
+    document.getElementById("imgdisplay").innerHTML = getRoom();
+    // show the first log
+    adventureLog += "You have entered the dungeon!<br>";
+    document.getElementById("logDisplay").innerHTML = adventureLog;
+    // place the player
+    addPlayer();
+    // draw the dungeon map
+    reddrawDungeon();
+    //hide the overlay
+    document.getElementById("imgoverlay").style.opacity = "0";
+    document.getElementById("imgoverlay").style.visibility = "hidden";
+    // start the game loop
+    gameHasStarted = true;
+  }
+
+  // beautification of the choice screen
+  function chosehighlight(type){
+    if (type == 'paladin') {
+      audiobarbarian.pause();
+      audiobarbarian.currentTime = 0;
+      audiowizard.pause();
+      audiowizard.currentTime = 0;
+      audiothief.pause();
+      audiothief.currentTime = 0;
+      audiopaladin.play();
+
+      document.getElementById("chosepaladin").style.opacity = "1";
+      document.getElementById("chosebarbarian").style.opacity = "0.6";
+      document.getElementById("chosethief").style.opacity = "0.6";
+      document.getElementById("chosewizard").style.opacity = "0.6";
+    }else if (type == 'barbarian') {
+      audiopaladin.pause();
+      audiopaladin.currentTime = 0;
+      audiowizard.pause();
+      audiowizard.currentTime = 0;
+      audiothief.pause();
+      audiothief.currentTime = 0;
+
+      audiobarbarian.play();
+
+      document.getElementById("chosepaladin").style.opacity = "0.6";
+      document.getElementById("chosebarbarian").style.opacity = "1";
+      document.getElementById("chosethief").style.opacity = "0.6";
+      document.getElementById("chosewizard").style.opacity = "0.6";
+    }else if (type == 'tief') {
+      audiopaladin.pause();
+      audiopaladin.currentTime = 0;
+      audiowizard.pause();
+      audiowizard.currentTime = 0;
+      audiobarbarian.pause();
+      audiobarbarian.currentTime = 0;
+      audiothief.play();
+
+
+      document.getElementById("chosepaladin").style.opacity = "0.6";
+      document.getElementById("chosebarbarian").style.opacity = "0.6";
+      document.getElementById("chosethief").style.opacity = "1";
+      document.getElementById("chosewizard").style.opacity = "0.6";
+    }else if (type == 'wizard') {
+      audiobarbarian.pause();
+      audiobarbarian.currentTime = 0;
+      audiothief.pause();
+      audiothief.currentTime = 0;
+      audiopaladin.pause();
+      audiopaladin.currentTime = 0;
+      audiowizard.play();
+
+      document.getElementById("chosepaladin").style.opacity = "0.6";
+      document.getElementById("chosebarbarian").style.opacity = "0.6";
+      document.getElementById("chosethief").style.opacity = "0.6";
+      document.getElementById("chosewizard").style.opacity = "1";
+    }
+  }
+
+  // once the player clicks on a character, this function implements all the necessary changes to the related variables that are needed for the character
+  function chosecharacter(type){
+    if (type == 'paladin') {
+      icnhero = "<img src='images/Paladin30.png'>";
+      cClass = 'paladin';
+      playerLives = 3;
+      maxLives = 3;
+      playerMana = 1;
+      maxMana = 1;
+      equipment = [0,0,0,0];
+      audiohurt = new Audio('sound/hurt.m4a');
+      audioplayerdeath = new Audio('sound/playerdeath.m4a');
+    }else if (type == 'barbarian') {
+      icnhero = "<img src='images/Barbarian30.png'>";
+      cClass = 'barbarian';
+      playerLives = 4;
+      maxLives = 4;
+      playerMana = 0;
+      maxMana = 0;
+      equipment = [0,0,0,0];
+      audiohurt = new Audio('sound/barbarianhurt.mp3');
+      audioplayerdeath = new Audio('sound/barbariandeath.mp3');
+    }else if (type == 'tief') {
+      icnhero = "<img src='images/Thief30.png'>";
+      cClass = 'tief';
+      playerLives = 2;
+      maxLives = 2;
+      playerMana = 1;
+      maxMana = 1;
+      equipment = [0,0,0,0];
+      audiohurt = new Audio('sound/thiefhurt.mp3');
+      audioplayerdeath = new Audio('sound/thiefdeath.mp3');
+    }else if (type == 'wizard') {
+      icnhero = "<img src='images/Wizard30.png'>";
+      cClass = 'wizard';
+      playerLives = 2;
+      maxLives = 2;
+      playerMana = 2;
+      maxMana = 2;
+      equipment = [1,0,0,0];
+      audiohurt = new Audio('sound/wizardhurt.mp3');
+      audioplayerdeath = new Audio('sound/wizarddeath.mp3');
+    }
+    createDungeon();
+  }
+
+  // place the player in the dungeon at a random spot that is not a wall
+  function addPlayer() {
+    var notdone=true;
+    while (notdone) {
+      var x = Math.floor(Math.random() * 6);
+      var y = Math.floor(Math.random() * 6);
+      if (matrix[y][x] === 0) {
+        matrix[y][x] = 2;
+        currentPosition=[y,x];
+        notdone = false;
+      }
+    }
+    // once the player is places check for all tiles that are reachable from the player position as it might happen that some tiles are cut off.
+    checkDungeon();
+    // if the character is a wizard, then give him the spell icon here. (H factually already got the spell when chosen, this is just for displaying the icon.)
+    if (cClass == 'wizard') {
+      document.getElementById("equipmentDisplay").innerHTML = icninventory+"<br>"+icnspell;
+    }
+  }
+
+  //check how many reachble tiles exist in the dungeon. This is necessary for the win condition.
+  function checkDungeon(){
+    // create a Set, because sets store unique values only. Add the current position to the Set.
+    var reachableTiles = new Set();
+    reachableTiles.add(currentPosition[0]+","+currentPosition[1]);
+
+    //loop through the set
+    reachableTiles.forEach (function(value) {
+        // since sets cannot store arrays as unqie just through the value, we store the coordinates as string (yes, hacky but if you have a better idea, feel free to change the code here)
+        var valuearr = value.split(",").map(Number);
+        // we check for boundaries so that we don't search beyond the matrix and we create the variables to make the later code faster
+        yp = valuearr[0]+1
+        if (yp == 6) {
+          yp = 5;
+        }
+        ym = valuearr[0]-1;
+        if (ym == -1) {
+          ym = 0;
+        }
+        xp = valuearr[1]+1;
+        if (xp == 6) {
+          xp = 5;
+        }
+        xm = valuearr[1]-1;
+        if (xm == -1) {
+          xm = 0;
+        }
+        // whenever a neighbour is a 0, we add it. the set will ensure that neighbours cannot be added twice
+      if (matrix[yp][xp] == 0){
+        reachableTiles.add(yp+","+xp);
+      }
+      if (matrix[yp][xm] == 0){
+        reachableTiles.add(yp+","+xm);
+      }
+      if (matrix[ym][xm] == 0){
+        reachableTiles.add(ym+","+xm);
+      }
+      if (matrix[ym][xp] == 0){
+        reachableTiles.add(ym+","+xp);
+      }
+      if (matrix[yp][valuearr[1]] == 0){
+        reachableTiles.add(yp+","+valuearr[1]);
+      }
+      if (matrix[ym][valuearr[1]] == 0){
+        reachableTiles.add(ym+","+valuearr[1]);
+      }
+      if (matrix[valuearr[0]][xm] == 0){
+        reachableTiles.add(valuearr[0]+","+xm);
+      }
+      if (matrix[valuearr[0]][xp] == 0){
+        reachableTiles.add(valuearr[0]+","+xp);
+      }
+    });
+    // finally we transfer the size of the set to the clobal variable
+    reachableTileCounter = reachableTiles.size;
+  }
+
+  // this moved the player. it is the core of the game and defines how the game behaves during encounters
+  function movePlayer(direction) {
+    // this cannot be called if the game has not started
+    if (!gameHasStarted) {
+      return 0;
+    }
+    // we can lock this down during encounters so that players cannot flee
+    if (moveLock) {
+      // first we roll what the content of the next tiel is
+      var tileContent = checkTile();
+      // then we play the audio file, because it will take the longest and will be played no matter what the tile contains
+      audiosteps.play();
+    // we go through each direction, all do the same but in... well in a different direction
+    if (direction == "N") {
+      // first we ensure that we do not walk beyong the boundary of the matrix
+      if (currentPosition[0]-1 >= 0) {
+        // We check if the tile has already been revievealed in a past move (that means it must contains a monster instead of an unrevealed tile)
+        if (matrix[currentPosition[0]-1][currentPosition[1]] == 41 || matrix[currentPosition[0]-1][currentPosition[1]] == 42 || matrix[currentPosition[0]-1][currentPosition[1]] == 43) {
+          // inform the log about this being a reencounter
+          adventureLog += "Re-engaging Enemy<br>";
+          document.getElementById("logDisplay").innerHTML = adventureLog;
+          // store the target position in the carryover
+          carryOverTarget=[currentPosition[0]-1,currentPosition[1]];
+          //get the enemy level by taking the full value and subtractung 40 (41 = lvl1, 42 = lvl2...)
+          var enemyLevel = matrix[currentPosition[0]-1][currentPosition[1]]-40;
+          //display the enemy and allow the player to fight
+          displayEnemy(enemyLevel);
+        // should the position be empty and not a wall, we allow the player to move...
+        }else if (matrix[currentPosition[0]-1][currentPosition[1]] != 1) {
+
+          // should the tile not be discovered, we allow a random discovery
+          if (matrix[currentPosition[0]-1][currentPosition[1]] != 3) {
+            // every new discovery leads to +1 score
+            finalScore += 1;
+            // we get the tile content to see what happens. "Encounter" means we see a new enemy
+            if (tileContent == "encounter") {
+              // first be create an enemy on the new tile
+              matrix[currentPosition[0]-1][currentPosition[1]] = createEnemy();
+              // we store the new tile to the carryover
+              carryOverTarget=[currentPosition[0]-1,currentPosition[1]];
+              // we retreive the enemylevel and inform the player via log
+              var enemyLevel = matrix[currentPosition[0]-1][currentPosition[1]]-40;
+              adventureLog += "Level "+(enemyLevel)+" Enemy encountered. You are locked in combat.<br>"
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+              // now we display the enemy based on it's level
+              displayEnemy(enemyLevel);
+              // next we create a treasure
+            } else if (tileContent == "treasure") {
+              // we add the treasure position to the new space
+              matrix[currentPosition[0]-1][currentPosition[1]]=5;
+              // we store the new tile to the carryover
+              carryOverTarget=[currentPosition[0]-1,currentPosition[1]];
+              // lock the players movement and inform the user
+              moveLock = false;
+              adventureLog += "Treasure found<br>"
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+              // then we create the treasure
+              getTreasure();
+              // finally we move to an empty space
+            } else {
+              //we inform the user about progression
+              adventureLog += "You have progressed in the dungeon<br>"
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+              //We move the plaer to the new tile
+              matrix[currentPosition[0]-1][currentPosition[1]]=2;
+              // we mark the current tile as discovered
+              matrix[currentPosition[0]][currentPosition[1]]=3;
+              // we update the current position
+              currentPosition=[currentPosition[0]-1,currentPosition[1]];
+              // we reset the carry over
+              carryOverTarget = [7,7];
+              //we display the room
+              document.getElementById("imgdisplay").innerHTML = getRoom();
+            }
+            //if the place has been discovered and has no monster, then we just move
+          } else {
+            // it works the same way as above
+            adventureLog += "You have progressed in the dungeon<br>"
+            document.getElementById("logDisplay").innerHTML = adventureLog;
+            matrix[currentPosition[0]-1][currentPosition[1]]=2;
+            matrix[currentPosition[0]][currentPosition[1]]=3;
+            currentPosition=[currentPosition[0]-1,currentPosition[1]];
+            carryOverTarget = [7,7];
+
+            document.getElementById("imgdisplay").innerHTML = getRoom();
+          }
+        }
+      }
+    }else if (direction == "S") {
+      if (currentPosition[0]+1 < 6){
+
+        if (matrix[currentPosition[0]+1][currentPosition[1]] == 41 || matrix[currentPosition[0]+1][currentPosition[1]] == 42 || matrix[currentPosition[0]+1][currentPosition[1]] == 43) {
+          carryOverTarget=[currentPosition[0]+1,currentPosition[1]];
+          adventureLog += "Re-engaging Enemy<br>";
+          document.getElementById("logDisplay").innerHTML = adventureLog;
+          var enemyLevel = matrix[currentPosition[0]+1][currentPosition[1]]-40;
+          displayEnemy(enemyLevel);
+        //else move
+          } else if (matrix[currentPosition[0]+1][currentPosition[1]] != 1) {
+        //get visited tile
+            if (matrix[currentPosition[0]+1][currentPosition[1]] != 3) {
+              finalScore += 1;
+              if (tileContent == "encounter") {
+                matrix[currentPosition[0]+1][currentPosition[1]] = createEnemy();
+                carryOverTarget=[currentPosition[0]+1,currentPosition[1]];
+                var enemyLevel = matrix[currentPosition[0]+1][currentPosition[1]]-40;
+                adventureLog += "Level "+(enemyLevel)+" Enemy encountered. You are locked in combat.<br>"
+                document.getElementById("logDisplay").innerHTML = adventureLog;
+
+                displayEnemy(enemyLevel);
+
+              } else if (tileContent == "treasure") {
+                matrix[currentPosition[0]+1][currentPosition[1]]=5;
+                carryOverTarget=[currentPosition[0]+1,currentPosition[1]];
+                moveLock = false;
+                adventureLog += "Treasure found<br>"
+                document.getElementById("logDisplay").innerHTML = adventureLog;
+
+                getTreasure();
+              } else {
+                matrix[currentPosition[0]+1][currentPosition[1]]=2;
+                matrix[currentPosition[0]][currentPosition[1]]=3;
+                currentPosition=[currentPosition[0]+1,currentPosition[1]];
+                carryOverTarget = [7,7];
+                adventureLog += "You have progressed in the dungeon<br>"
+                document.getElementById("logDisplay").innerHTML = adventureLog;
+                document.getElementById("imgdisplay").innerHTML = getRoom();
+
+              }
+            //else just move
+            } else {
+              matrix[currentPosition[0]+1][currentPosition[1]]=2;
+              matrix[currentPosition[0]][currentPosition[1]]=3;
+              currentPosition=[currentPosition[0]+1,currentPosition[1]];
+              carryOverTarget = [7,7];
+              adventureLog += "You have progressed in the dungeon<br>"
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+
+              document.getElementById("imgdisplay").innerHTML = getRoom();
+            }
+          }
+        }
+      }else if (direction == "E") {
+      if (currentPosition[1]+1 < 6){
+        if (matrix[currentPosition[0]][currentPosition[1]+1] == 41 || matrix[currentPosition[0]][currentPosition[1]+1] == 42 || matrix[currentPosition[0]][currentPosition[1]+1] == 43) {
+          carryOverTarget=[currentPosition[0],currentPosition[1]+1];
+          adventureLog += "Re-engaging Enemy<br>";
+          document.getElementById("logDisplay").innerHTML = adventureLog;
+          var enemyLevel = matrix[currentPosition[0]][currentPosition[1]+1]-40;
+          displayEnemy(enemyLevel);
+        //else move
+        } else if (matrix[currentPosition[0]][currentPosition[1]+1] != 1) {
+
+          if (matrix[currentPosition[0]][currentPosition[1]+1] != 3) {
+            finalScore += 1;
+            if (tileContent == "encounter") {
+              matrix[currentPosition[0]][currentPosition[1]+1] = createEnemy();
+              carryOverTarget=[currentPosition[0],currentPosition[1]+1];
+              var enemyLevel = matrix[currentPosition[0]][currentPosition[1]+1]-40;
+              adventureLog += "Level "+(enemyLevel)+" Enemy encountered. You are locked in combat.<br>"
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+
+              displayEnemy(enemyLevel);
+
+            } else if (tileContent == "treasure") {
+              matrix[currentPosition[0]][currentPosition[1]+1]=5;
+              carryOverTarget=[currentPosition[0],currentPosition[1]+1];
+              moveLock = false;
+              adventureLog += "Treasure found<br>"
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+
+              getTreasure();
+            } else {
+              matrix[currentPosition[0]][currentPosition[1]+1]=2;
+              matrix[currentPosition[0]][currentPosition[1]]=3;
+              currentPosition=[currentPosition[0],currentPosition[1]+1];
+              carryOverTarget = [7,7];
+              adventureLog += "You have progressed in the dungeon<br>"
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+
+              document.getElementById("imgdisplay").innerHTML = getRoom();
+            }
+          //else just move
+          } else {
+            matrix[currentPosition[0]][currentPosition[1]+1]=2;
+            matrix[currentPosition[0]][currentPosition[1]]=3;
+            currentPosition=[currentPosition[0],currentPosition[1]+1];
+            carryOverTarget = [7,7];
+            adventureLog += "You have progressed in the dungeon<br>"
+            document.getElementById("logDisplay").innerHTML = adventureLog;
+
+            document.getElementById("imgdisplay").innerHTML = getRoom();
+          }
+        }
+      }
+    }else if (direction == "W") {
+      if (currentPosition[1]-1 >= 0) {
+        if (matrix[currentPosition[0]][currentPosition[1]-1] == 41 || matrix[currentPosition[0]][currentPosition[1]-1] == 42 || matrix[currentPosition[0]][currentPosition[1]-1] == 43) {
+          carryOverTarget=[currentPosition[0],currentPosition[1]-1];
+          adventureLog += "Re-engaging Enemy<br>";
+          document.getElementById("logDisplay").innerHTML = adventureLog;
+          var enemyLevel = matrix[currentPosition[0]][currentPosition[1]-1]-40;
+          displayEnemy(enemyLevel);
+        //else move
+      } else if (matrix[currentPosition[0]][currentPosition[1]-1] != 1) {
+
+          if (matrix[currentPosition[0]][currentPosition[1]-1] != 3) {
+            finalScore += 1;
+            if (tileContent == "encounter") {
+              matrix[currentPosition[0]][currentPosition[1]-1] = createEnemy();
+              carryOverTarget=[currentPosition[0],currentPosition[1]-1];
+              var enemyLevel = matrix[currentPosition[0]][currentPosition[1]-1]-40;
+              adventureLog += "Level "+(enemyLevel)+" Enemy encountered. You are locked in combat.<br>"
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+
+              displayEnemy(enemyLevel);
+
+            } else if (tileContent == "treasure") {
+              matrix[currentPosition[0]][currentPosition[1]-1]=5;
+              carryOverTarget=[currentPosition[0],currentPosition[1]-1];
+              moveLock = false;
+              adventureLog += "Treasure found<br>"
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+
+              getTreasure();
+            } else {
+              matrix[currentPosition[0]][currentPosition[1]-1]=2;
+              matrix[currentPosition[0]][currentPosition[1]]=3;
+              currentPosition=[currentPosition[0],currentPosition[1]-1];
+              carryOverTarget = [7,7];
+              adventureLog += "You have progressed in the dungeon<br>"
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+
+              document.getElementById("imgdisplay").innerHTML = getRoom();
+            }
+          //else just move
+          } else {
+            matrix[currentPosition[0]][currentPosition[1]-1]=2;
+            matrix[currentPosition[0]][currentPosition[1]]=3;
+            currentPosition=[currentPosition[0],currentPosition[1]-1];
+            carryOverTarget = [7,7];
+            adventureLog += "You have progressed in the dungeon<br>"
+            document.getElementById("logDisplay").innerHTML = adventureLog;
+
+            document.getElementById("imgdisplay").innerHTML = getRoom();
+          }
+        }
+      }
+    } else if (direction == "NE") {
+        if (currentPosition[0]-1 >= 0 && currentPosition[1]+1 < 6) {
+          if (matrix[currentPosition[0]-1][currentPosition[1]+1] == 41 || matrix[currentPosition[0]-1][currentPosition[1]+1] == 42 || matrix[currentPosition[0]-1][currentPosition[1]+1] == 43) {
+            carryOverTarget=[currentPosition[0]-1,currentPosition[1]+1];
+            adventureLog += "Re-engaging Enemy<br>";
+            document.getElementById("logDisplay").innerHTML = adventureLog;
+            var enemyLevel = matrix[currentPosition[0]-1][currentPosition[1]+1]-40;
+            displayEnemy(enemyLevel);
+            //else move
+        } else if (matrix[currentPosition[0]-1][currentPosition[1]+1] != 1) {
+
+            if (matrix[currentPosition[0]-1][currentPosition[1]+1] != 3) {
+              finalScore += 1;
+              if (tileContent == "encounter") {
+                matrix[currentPosition[0]-1][currentPosition[1]+1] = createEnemy();
+                carryOverTarget=[currentPosition[0]-1,currentPosition[1]+1];
+                var enemyLevel = matrix[currentPosition[0]-1][currentPosition[1]+1]-40;
+                adventureLog += "Level "+(enemyLevel)+" Enemy encountered. You are locked in combat.<br>"
+                document.getElementById("logDisplay").innerHTML = adventureLog;
+
+                displayEnemy(enemyLevel);
+
+              } else if (tileContent == "treasure") {
+                matrix[currentPosition[0]-1][currentPosition[1]+1]=5;
+                carryOverTarget=[currentPosition[0]-1,currentPosition[1]+1];
+                moveLock = false;
+                adventureLog += "Treasure found<br>"
+                document.getElementById("logDisplay").innerHTML = adventureLog;
+
+                getTreasure();
+              } else {
+                matrix[currentPosition[0]][currentPosition[1]]=3;
+                matrix[currentPosition[0]-1][currentPosition[1]+1]=2;
+                currentPosition=[currentPosition[0]-1,currentPosition[1]+1];
+                carryOverTarget = [7,7];
+                adventureLog += "You have progressed in the dungeon<br>"
+                document.getElementById("logDisplay").innerHTML = adventureLog;
+
+                document.getElementById("imgdisplay").innerHTML = getRoom();
+              }
+              //else just move
+            } else {
+              matrix[currentPosition[0]][currentPosition[1]]=3;
+              matrix[currentPosition[0]-1][currentPosition[1]+1]=2;
+              currentPosition=[currentPosition[0]-1,currentPosition[1]+1];
+              carryOverTarget = [7,7];
+              adventureLog += "You have progressed in the dungeon<br>"
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+
+              document.getElementById("imgdisplay").innerHTML = getRoom();
+          }
+        }
+      }
+    } else if (direction == "NW") {
+      if (currentPosition[0]-1 >= 0 && currentPosition[1]-1 >= 0) {
+        if (matrix[currentPosition[0]-1][currentPosition[1]-1] == 41 || matrix[currentPosition[0]-1][currentPosition[1]-1] == 42 || matrix[currentPosition[0]-1][currentPosition[1]-1] == 43) {
+          carryOverTarget=[currentPosition[0]-1,currentPosition[1]-1];
+          adventureLog += "Re-engaging Enemy<br>";
+          document.getElementById("logDisplay").innerHTML = adventureLog;
+          var enemyLevel = matrix[currentPosition[0]-1][currentPosition[1]-1]-40;
+          displayEnemy(enemyLevel);
+          //else move
+      } else if (matrix[currentPosition[0]-1][currentPosition[1]-1] != 1) {
+
+          if (matrix[currentPosition[0]-1][currentPosition[1]-1] != 3) {
+            finalScore += 1;
+            if (tileContent == "encounter") {
+              matrix[currentPosition[0]-1][currentPosition[1]-1] = createEnemy();
+              carryOverTarget=[currentPosition[0]-1,currentPosition[1]-1];
+              var enemyLevel = matrix[currentPosition[0]-1][currentPosition[1]-1]-40;
+              adventureLog += "Level "+(enemyLevel)+" Enemy encountered. You are locked in combat.<br>"
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+
+              displayEnemy(enemyLevel);
+
+            } else if (tileContent == "treasure") {
+              matrix[currentPosition[0]-1][currentPosition[1]-1]=5;
+              carryOverTarget=[currentPosition[0]-1,currentPosition[1]-1];
+              moveLock = false;
+              adventureLog += "Treasure found<br>"
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+
+              getTreasure();
+            } else {
+              matrix[currentPosition[0]][currentPosition[1]]=3;
+              matrix[currentPosition[0]-1][currentPosition[1]-1]=2;
+              currentPosition=[currentPosition[0]-1,currentPosition[1]-1];
+              carryOverTarget = [7,7];
+              adventureLog += "You have progressed in the dungeon<br>"
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+
+              document.getElementById("imgdisplay").innerHTML = getRoom();
+            }
+            //else just move
+          } else {
+            matrix[currentPosition[0]][currentPosition[1]]=3;
+            matrix[currentPosition[0]-1][currentPosition[1]-1]=2;
+            currentPosition=[currentPosition[0]-1,currentPosition[1]-1];
+            carryOverTarget = [7,7];
+            adventureLog += "You have progressed in the dungeon<br>"
+            document.getElementById("logDisplay").innerHTML = adventureLog;
+
+            document.getElementById("imgdisplay").innerHTML = getRoom();
+              }
+            }
+          }
+        } else if (direction == "SE") {
+          if (currentPosition[0]+1 < 6 && currentPosition[1]+1 < 6) {
+            if (matrix[currentPosition[0]+1][currentPosition[1]+1] == 41 || matrix[currentPosition[0]+1][currentPosition[1]+1] == 42 || matrix[currentPosition[0]+1][currentPosition[1]+1] == 43) {
+              carryOverTarget=[currentPosition[0]+1,currentPosition[1]+1];
+              adventureLog += "Re-engaging Enemy<br>";
+              document.getElementById("logDisplay").innerHTML = adventureLog;
+              var enemyLevel = matrix[currentPosition[0]+1][currentPosition[1]+1]-40;
+              displayEnemy(enemyLevel);
+              //else move
+          } else if (matrix[currentPosition[0]+1][currentPosition[1]+1] != 1) {
+
+              if (matrix[currentPosition[0]+1][currentPosition[1]+1] != 3) {
+                finalScore += 1;
+                if (tileContent == "encounter") {
+                  matrix[currentPosition[0]+1][currentPosition[1]+1] = createEnemy();
+                  carryOverTarget=[currentPosition[0]+1,currentPosition[1]+1];
+                  var enemyLevel = matrix[currentPosition[0]+1][currentPosition[1]+1]-40;
+                  adventureLog += "Level "+(enemyLevel)+" Enemy encountered. You are locked in combat.<br>"
+                  document.getElementById("logDisplay").innerHTML = adventureLog;
+
+                  displayEnemy(enemyLevel);
+
+                } else if (tileContent == "treasure") {
+                  matrix[currentPosition[0]+1][currentPosition[1]+1]=5;
+                  carryOverTarget=[currentPosition[0]+1,currentPosition[1]+1];
+                  moveLock = false;
+                  adventureLog += "Treasure found<br>"
+                  document.getElementById("logDisplay").innerHTML = adventureLog;
+
+                  getTreasure();
+                } else {
+                  matrix[currentPosition[0]][currentPosition[1]]=3;
+                  matrix[currentPosition[0]+1][currentPosition[1]+1]=2;
+                  currentPosition=[currentPosition[0]+1,currentPosition[1]+1];
+                  carryOverTarget = [7,7];
+                  adventureLog += "You have progressed in the dungeon<br>"
+                  document.getElementById("logDisplay").innerHTML = adventureLog;
+
+                  document.getElementById("imgdisplay").innerHTML = getRoom();
+                }
+                //else just move
+              } else {
+                matrix[currentPosition[0]][currentPosition[1]]=3;
+                matrix[currentPosition[0]+1][currentPosition[1]+1]=2;
+                currentPosition=[currentPosition[0]+1,currentPosition[1]+1];
+                carryOverTarget = [7,7];
+                adventureLog += "You have progressed in the dungeon<br>"
+                document.getElementById("logDisplay").innerHTML = adventureLog;
+
+                document.getElementById("imgdisplay").innerHTML = getRoom();
+              }
+            }
+          }
+        } else if (direction == "SW") {
+            if (currentPosition[0]+1 < 6 && currentPosition[1]-1 >= 0) {
+              if (matrix[currentPosition[0]+1][currentPosition[1]-1] == 41 || matrix[currentPosition[0]+1][currentPosition[1]-1] == 42 || matrix[currentPosition[0]+1][currentPosition[1]-1] == 43) {
+                carryOverTarget=[currentPosition[0]+1,currentPosition[1]-1];
+                adventureLog += "Re-engaging Enemy<br>";
+                document.getElementById("logDisplay").innerHTML = adventureLog;
+                var enemyLevel = matrix[currentPosition[0]+1][currentPosition[1]-1]-40;
+                displayEnemy(enemyLevel);
+                //else move
+            } else if (matrix[currentPosition[0]+1][currentPosition[1]-1] != 1) {
+
+                if (matrix[currentPosition[0]+1][currentPosition[1]-1] != 3) {
+                  finalScore += 1;
+                  if (tileContent == "encounter") {
+                    matrix[currentPosition[0]+1][currentPosition[1]-1] = createEnemy();
+                    carryOverTarget=[currentPosition[0]+1,currentPosition[1]-1];
+                    var enemyLevel = matrix[currentPosition[0]+1][currentPosition[1]-1]-40;
+                    adventureLog += "Level "+(enemyLevel)+" Enemy encountered. You are locked in combat.<br>"
+                    document.getElementById("logDisplay").innerHTML = adventureLog;
+
+                    displayEnemy(enemyLevel);
+
+                  } else if (tileContent == "treasure") {
+                    matrix[currentPosition[0]+1][currentPosition[1]-1]=5;
+                    carryOverTarget=[currentPosition[0]+1,currentPosition[1]-1];
+                    moveLock = false;
+                    adventureLog += "Treasure found<br>"
+                    document.getElementById("logDisplay").innerHTML = adventureLog;
+
+                    getTreasure();
+                  } else {
+                    matrix[currentPosition[0]][currentPosition[1]]=3;
+                    matrix[currentPosition[0]+1][currentPosition[1]-1]=2;
+                    currentPosition=[currentPosition[0]+1,currentPosition[1]-1];
+                    carryOverTarget = [7,7];
+                    adventureLog += "You have progressed in the dungeon<br>"
+                    document.getElementById("logDisplay").innerHTML = adventureLog;
+
+                    document.getElementById("imgdisplay").innerHTML = getRoom();
+                  }
+                  //else just move
+                } else {
+                  matrix[currentPosition[0]][currentPosition[1]]=3;
+                  matrix[currentPosition[0]+1][currentPosition[1]-1]=2;
+                  currentPosition=[currentPosition[0]+1,currentPosition[1]-1];
+                  carryOverTarget = [7,7];
+                  adventureLog += "You have progressed in the dungeon<br>"
+                  document.getElementById("logDisplay").innerHTML = adventureLog;
+
+                  document.getElementById("imgdisplay").innerHTML = getRoom();
+                }
+              }
+            }
+          }
+      // at the end we redraw the dungeon
+      reddrawDungeon();
+    }
+  }
+  // the function displayed the enemy image depending on its level. for each monster is chooses between 4 images at random and plays the appropriate sound
+  function displayEnemy(enemyLevel){
+    if (enemyLevel == 1) {
+
+      audioslime.play();
+      var choice = Math.floor(Math.random() * 4 +1);
+      if (choice == 1) {
+        document.getElementById("imgdisplay").innerHTML = imgmonster5;
+      } else if (choice == 2) {
+        document.getElementById("imgdisplay").innerHTML = imgmonster6;
+      }else if (choice == 3) {
+        document.getElementById("imgdisplay").innerHTML = imgmonster7;
+      }else {
+        document.getElementById("imgdisplay").innerHTML = imgmonster8;
+      }
+    } else if (enemyLevel == 2) {
+
+      audiohulk.play();
+      var choice = Math.floor(Math.random() * 4 +1);
+      if (choice == 1) {
+        document.getElementById("imgdisplay").innerHTML = imgmonster1;
+      } else if (choice == 2) {
+        document.getElementById("imgdisplay").innerHTML = imgmonster2;
+      }else if (choice == 3) {
+        document.getElementById("imgdisplay").innerHTML = imgmonster3;
+      }else {
+        document.getElementById("imgdisplay").innerHTML = imgmonster4;
+      }
+    }else {
+
+      audiodragon.play();
+      var choice = Math.floor(Math.random() * 4 +1);
+      if (choice == 1) {
+        document.getElementById("imgdisplay").innerHTML = imgmonster9;
+      } else if (choice == 2) {
+        document.getElementById("imgdisplay").innerHTML = imgmonster10;
+      }else if (choice == 3) {
+        document.getElementById("imgdisplay").innerHTML = imgmonster11;
+      }else {
+        document.getElementById("imgdisplay").innerHTML = imgmonster12;
+      }
+    }
+    // after displaying it, we lock the player in place so he has to fight
+    moveLock = false;
+  }
+
+  // This function gets a room image from 5 different possible images at random. it helps the immersion.
+  function getRoom(){
+    var choice = Math.floor(Math.random() * 5 +1);
+    if (choice == 1) {
+      return imgroom6;
+    }
+    if (choice == 2) {
+      return imgroom4;
+    }
+    if (choice == 3) {
+      return imgroom2;
+    }
+    if (choice == 4) {
+      return imgroom1;
+    }
+    return imgroom3;
+  }
+
+  //this function create the treasure chest
+  function getTreasure(){
+    //this is a bug patch. sometimes the find treasure sound would not play of a previous one was still running. so stopping it before playing it helps.
+    audiotreasurefind.pause();
+		audiotreasurefind.currentTime = 0;
+    audiotreasurefind.play();
+    // we display a treasure chest at random
+    var choice = Math.floor(Math.random() * 4 +1);
+    if (choice == 1) {
+      document.getElementById("imgdisplay").innerHTML = imgtreasure1;
+    } else if (choice == 2) {
+      document.getElementById("imgdisplay").innerHTML = imgtreasure2;
+    }else if (choice == 3) {
+      document.getElementById("imgdisplay").innerHTML = imgtreasure3;
+    }else {
+      document.getElementById("imgdisplay").innerHTML = imgtreasure4;
+    }
+  }
+
+  // this function creates a randomized content for new tiles. it does not place the content, that is done in move. It simply creates a potential roll
+  function checkTile(){
+    var checkRoll = Math.floor(Math.random() * 6 +1);
+    var result = "empty";
+    if (checkRoll == 4 || checkRoll == 5) {
+      result = "encounter";
+    } else if (checkRoll == 6) {
+      result = "treasure";
+    }
+    //an addition to the thief class: she finds treasure also on the roll of a 1
+    if (cClass == "tief" && checkRoll == 1) {
+      result = "treasure";
+    }
+    // the result string is returned to movePlayer() and can be used if needed.
+    return result;
+  }
+
+  // this function creates the enemy by deciding its level
+  function createEnemy() {
+    // we roll a dice for randomness
+    var checkRoll = Math.floor(Math.random() * 6)+1;
+    // in the rule book all monster have an equal chance to appear, this lead consistently to very unfair situations. So we rebalanced instead
+    //checkRoll = Math.round(checkRoll/2);
+    // this is the rebalanced code. essentially you have a 1/2 chance to find a lvl1 monster, a 2/3 chance for a lvl 2 moster and a 1/6 change for a lvl 3 monster
+    switch (checkRoll) {
+      case 1:
+      case 2:
+      case 3:
+        checkRoll=1;
+        break;
+        case 4:
+        case 5:
+          checkRoll=2;
+          break;
+      default:
+        checkRoll=3;
+    }
+    //we add 40. this is needed to make the monster tiles visible in code. it is tile type 4 and the monster level
+    checkRoll = 40+checkRoll;
+    return checkRoll;
+  }
+  // this function create the combat and processes the results
+  function combat(type){
+    // we first check if the game is running. This is necessary so that players cannot interact with a monster after the game has ended
+    if (!gameHasStarted) {
+      return 0;
+    }
+    // we endure that we have a carry-over value
+    if (carryOverTarget[0] != 7) {
+
+      // we ensure that we are looking at a monster
+      if (matrix[carryOverTarget[0]][carryOverTarget[1]] == 41 || matrix[carryOverTarget[0]][carryOverTarget[1]] == 42 || matrix[carryOverTarget[0]][carryOverTarget[1]] == 43) {
+        // we call combat solution, which will return a boolean if the monster has been defeated or not
+        if (combatResolution(type)) {
+          //should we ein, we first play the killsound
+          audiomonsterkill.play();
+          //we move the plare to the new tile and set the old tile to a dicovered empty tile. then we set the new current position and inform the player
+          matrix[carryOverTarget[0]][carryOverTarget[1]]=2;
+          matrix[currentPosition[0]][currentPosition[1]]=3;
+          currentPosition=[carryOverTarget[0],carryOverTarget[1]];
+          adventureLog += "Monster Slain!<br>"
+          document.getElementById("logDisplay").innerHTML = adventureLog;
+          // now we display the splat image for killed monster and the
+          document.getElementById("imgdisplay").innerHTML = imgroomsplat;
+        } else {
+          //should we lose the fight, then we play the hurt sound
+          audiohurt.play();
+          //we remove a life and inform the player via log
+          playerLives = playerLives-1;
+          adventureLog += "You have lost health<br>"
+          document.getElementById("logDisplay").innerHTML = adventureLog;
+
+        }
+        // this is just for fun if a player wants to attack a treasure chest
+      } if (matrix[carryOverTarget[0]][carryOverTarget[1]] == 5) {
+        //make fun of barbarian
+        if (cClass == "barbarian") {
+          adventureLog += "Gronk tries to smash chest. Then Gronk tries to eat chest. Now Gronk sad.<br>"
+        }else {
+          adventureLog += "You give the chest a good smacking. It knows what it did, it deserved that.<br>"
+        }
+        document.getElementById("logDisplay").innerHTML = adventureLog;
+        //return 0; //this can fix the "attack chest to reroll it" bug/feature. I leave it in on purpose
+      }
+      // now we check if the plaer has died in the battle
+      if (playerLives == 0) {
+        // we stop all audio and play the death sound. We then inform the player. We then remove the mal and display a message with the final score and redraw the hud to show that no lives are left.
+        pauseAllAudio();
+        audioplayerdeath.play();
+        adventureLog += "You have died!<br>"
+        document.getElementById("logDisplay").innerHTML = adventureLog;
+        gameHasStarted = false;
+        document.getElementById("map").innerHTML = "<div style='color:lightred;text-shadow: 1px 1px 2px red;'>GAME OVER!<p>YOU DIED!<p>Final Score:"+finalScore+"</div><button type='button' name='button' onclick='location.reload()' class='directionalbutton'>"+increstart+"</button>";
+        document.getElementById("imgdisplay").innerHTML = imgdeath;
+        redrawhud();
+      }else {
+        // if we survived we release the movelock and redraw the dungeon
+        moveLock = true;
+        reddrawDungeon();
+      }
+    }else {
+      // this just for fun if a player click on attack with no monster
+      adventureLog += "You wiggle your weapon around in the air while making swoosh sounds with your mouth.<br>"
+      document.getElementById("logDisplay").innerHTML = adventureLog;
+    }
+  }
+
+  // this  function resolves the combat
+  function combatResolution(type) {
+    // casting be default is off. We need this to determine if we have a legitimate spellcasting possibility
+    var casting = false;
+    //make fun of barbarian. it lets the barbarian attack. because brute forse is barbarian magic...
+    if (cClass == "barbarian" && type == "spell") {
+      adventureLog += "Gronk tries to use barbarian magic: he charges at the enemy with his axe screaming like a maniac.<br>"
+      document.getElementById("logDisplay").innerHTML = adventureLog;
+      type = "attack";
+    }
+
+    // this where we get evil: we check if the player has the spell and mana if they have clicked spell. if not, they will take a hit. If yes, then we set casting to true and allow a spell to happen.
+    if (equipment[0] == 0 && type == "spell") {
+      adventureLog += "You have no spell. You stand around and do nothing.<br>"
+      document.getElementById("logDisplay").innerHTML = adventureLog;
+    }else if (playerMana == 0 && type == "spell") {
+      adventureLog += "You have no mana. You stand around and do nothing.<br>"
+      document.getElementById("logDisplay").innerHTML = adventureLog;
+    } else if (type == "spell") {
+      casting=true;
+    }
+    // the player has clicked spell and can actually cast (has the spell and has mana) we resolve spell
+    if (casting) {
+      // play the most complex sound effect I ever made and inform the player
+      audiospell.play();
+      adventureLog += "You vanquished the monster with a spell<br>"
+      document.getElementById("logDisplay").innerHTML = adventureLog;
+      // create the overlay that I put the least effort in
+      showOverlay("spell");
+
+      // level up: we check if the player has reached the max level (lvl 3). if not, we increase the level progression by 1
+      if (playerLVL < 3) {
+        playerlvlP += 1;
+      }
+      // if the level progression has reached 3 and the player level is below 3 we increase the player level and reduce the level progression back to 0
+      if (playerlvlP == 3 && playerLVL < 3) {
+        audiolvlup.play();
+        playerLVL += 1;
+        playerlvlP = 0;
+        finalScore += 1;
+      }
+      // now we reduce mana by one, increas the final score and returning true to combat()
+      playerMana -= 1;
+      finalScore += 2;
+      return true;
+
+    // otherwise we attack
+    }else if (type == "attack") {
+      // first we play the slash sound and inform the player
+      audioslash.play();
+      adventureLog += "You attack the monster<br>"
+      document.getElementById("logDisplay").innerHTML = adventureLog;
+      // we show the overlay of the sword strike
+      showOverlay("strike");
+
+      // we create a randomized roll and inform the player. Not sure wht this specific dice roll is informed... I just like it that way
+      var checkRoll = Math.floor(Math.random() * 6)+1;
+      adventureLog += "You roll a "+checkRoll+"<br>"
+      document.getElementById("logDisplay").innerHTML = adventureLog;
+
+      // We first add checks here for sword and shield
+      var modifier = 0; // the shield modifies the matrix by 1 we do this by subtracting this modifier
+      if (equipment[1] == 1) {
+        modifier = 1;
+      }
+      if (equipment[2] == 1) { //the sword just add +1 to the sword strike. Bot end with the same outcome, but I wanted to display it as close to the rulbook as I can.
+        checkRoll += 1;
+      }
+      // we now get the monster level. we need to reduce it by one to get the coordinated for the array (0-2)
+      var monsterLvl = matrix[carryOverTarget[0]][carryOverTarget[1]] - 41;
+      // ne need to reduce the playerlevel by 1, because the array starts at 0, which is akin to 1
+      var playerLVLm = playerLVL-1;
+      // this is the exact matrix from the rulebook. and what we challenge to
+      var winLoseMatrix = [
+        [3,2,1],
+        [4,3,2],
+        [6,4,3]
+      ];
+      // the check takes the monster and player levels as coordinates and compated the content of that cell to the dice roll
+        if (checkRoll >= winLoseMatrix[monsterLvl][playerLVLm]-modifier) {
+          //if we win, we add 2 to the score and increase the player level (see above)
+          finalScore += 2;
+          if (playerLVL < 3) {
+            playerlvlP += 1;
+          }
+          if (playerlvlP == 3 && playerLVL < 3) {
+
+            audiolvlup.play();
+            playerLVL += 1;
+            playerlvlP = 0;
+            finalScore += 1;
+          }
+          // we return true
+          return true;
+        }
+        //if we lose, we play the hurt sound and return false
+        showOverlay("hurt");
+        return false;
+    }
+  }
+
+  // this function just displayes overlays
+  async function showOverlay(type){
+    if (type == "spell") {
+      document.getElementById("imgoverlay").innerHTML = imgspellcast;
+    }else if (type == "strike") {
+      document.getElementById("imgoverlay").innerHTML = imgswordstrike;
+    } else if(type == "hurt"){
+      document.getElementById("imgoverlay").innerHTML = imgbloodsplat;
+    }else if (type == "gethealth") {
+      document.getElementById("imgoverlay").innerHTML = imggethealthpotion;
+    }else if (type == "getmana") {
+      document.getElementById("imgoverlay").innerHTML = imggetmanapotion;
+    }else if (type == "getspell") {
+      document.getElementById("imgoverlay").innerHTML = imggetspell;
+    }else if (type == "getsshield") {
+      document.getElementById("imgoverlay").innerHTML = imggetshield;
+    }else if (type == "getsword") {
+      document.getElementById("imgoverlay").innerHTML = imggetsword;
+    }
+
+    document.getElementById("imgoverlay").style.visibility = "visible";
+    document.getElementById("imgoverlay").style.opacity = "1";
+    await sleep(1000); //we display the image for 1 second
+    document.getElementById("imgoverlay").style.opacity = "0";
+    await sleep(200); //we need 0.2 to fade out the image before we hide it
+    document.getElementById("imgoverlay").style.visibility = "hidden";
+  }
+
+  // this function creates the treasure when opening it
+  function createTreasure(){
+    //first we increase the score and play the sound
+    finalScore += 1;
+    audiotreasure.play();
+    // we create a random roll and then we simply  swirtch through it
+    var checkRoll = Math.floor(Math.random() * 6)+1;
+    switch (checkRoll) {
+      case 1:
+      // lives and mana get used immediately if lives (or mana) are below the max value
+        if (playerLives < maxLives) {
+          playerLives +=1;
+        }
+        adventureLog += "You found a health potion.<br>";
+        document.getElementById("logDisplay").innerHTML = adventureLog;
+
+        showOverlay("gethealth");
+        break;
+      case 2:
+        if (playerMana < maxMana) {
+          playerMana +=1;
+        }
+        adventureLog += "You found a mana potion.<br>";
+        document.getElementById("logDisplay").innerHTML = adventureLog;
+
+        showOverlay("getmana");
+        break;
+      case 3:
+        equipment[0] = 1 ;//[spell, shield, sword]
+        adventureLog += "You found a destructive spell created by the wisest wizards.<br>";
+        document.getElementById("logDisplay").innerHTML = adventureLog;
+        finalScore += 1;
+
+        showOverlay("getspell");
+        break;
+      case 4:
+        equipment[1] = 1 ;//[spell, shield, sword]
+        adventureLog += "You found a shield forged by the gods.<br>"
+        document.getElementById("logDisplay").innerHTML = adventureLog;
+        finalScore += 1;
+
+        showOverlay("getsshield");
+        break;
+      case 5:
+        equipment[2] = 1 ;//[spell, shield, sword]
+        adventureLog += "You found a legendary sword that was once held by a hero.<br>";
+        document.getElementById("logDisplay").innerHTML = adventureLog;
+        finalScore += 1;
+
+        showOverlay("getsword");
+        break;
+      case 6:
+        gameHasStarted = false;
+        equipment[3] = 1;
+        finalScore += 3;
+        pauseAllAudio();
+        audiowin.play();
+        document.getElementById("map").innerHTML = "<div style='color:lightgreen;text-shadow: 1px 1px 2px #000000;'>Congratulations, you won!<p>However, more adventures await you!<p>Final Score:"+finalScore+"</div><p><button type='button' name='button' onclick='location.reload()' class='directionalbutton'>"+increstart+"</button>";
+        adventureLog += "You found the long lost treasure. Ritches beyond your imagination are laying before your eyes.<br>";
+        document.getElementById("logDisplay").innerHTML = adventureLog;
+        document.getElementById("imgdisplay").innerHTML = imgwin1;
+
+        break;
+    }
+    // we create the inventory with all things in out eqiptent array and display it
+    var output = icninventory+"<br>";
+    if (equipment[0] == 1) {
+      output += icnspell;
+    }
+    if (equipment[1] == 1) {
+      output += icnshield;
+    }
+    if (equipment[2] == 1) {
+      output += icnsword;
+    }
+
+    document.getElementById("equipmentDisplay").innerHTML = output;
+  }
+
+  // this function deals with opening the treasure
+  function openTreasure(){
+    // we first check if the game is running
+    if (!gameHasStarted) {
+      return 0;
+    }
+    // we ensure that we have a carry over target
+    if (carryOverTarget[0] != 7) {
+      //we ensure that a tresure is in the target field
+      if (matrix[carryOverTarget[0]][carryOverTarget[1]] == 5){
+        // we create the treasure
+        createTreasure();
+        // new we move the player to that new field and place an emoty tile on the previous one. then we set the current position to the new coordinates and release the movelock.
+        matrix[carryOverTarget[0]][carryOverTarget[1]]=2;
+        matrix[currentPosition[0]][currentPosition[1]]=3;
+        currentPosition=[carryOverTarget[0],carryOverTarget[1]];
+        moveLock = true;
+        //If we get the macguffin we need to redraw the hud
+        if (equipment[3] == 0) {
+          reddrawDungeon();
+        }
+      }
+    }
+  }
+
+  // this redraws the dungeon. the spelling error snuck in and now I keep it
+  function reddrawDungeon(){
+    //we create the table that will be the map
+    var mapstring = "<table class='maptable'>";
+      // this is necessary to compare to the reachableTileCounter variable that we created in checkDungeon(). should the values be identical, then all reachable tiles have been uncovered and the game ends
+      var countZeroes = 0;
+      // we iterate through the matrix and build a table
+      for (let i = 0; i < matrix.length; i++) {
+        mapstring += "<tr>";
+          for (let j = 0; j < matrix[i].length; j++) {
+            if (matrix[i][j] === 0) {
+              mapstring += "<td style='background-image: url(\""+imgdarktile+"\");'></td>"; //undiscovered tile
+            }else if (matrix[i][j] === 1) {
+              mapstring += "<td style='background-image: url(\""+imgwalltile+"\");'></td>"; //wall tile
+            }else if (matrix[i][j] === 2) {
+              mapstring += "<td style='background-image: url(\""+imglighttile+"\");text-align:center'>"+icnhero+"</td>"; //heros position
+              countZeroes += 1;
+            }else if (matrix[i][j] === 3) {
+              mapstring += "<td style='background-image: url(\""+imglighttile+"\")'></td>"; //discovered empty tile
+              countZeroes += 1;
+            }else if (matrix[i][j] === 41) {
+              mapstring += "<td style='background:yellow'>"+icnskull1+"</td>"; //discovered lvl1 monster
+              countZeroes += 1;
+            }else if (matrix[i][j] === 42) {
+              mapstring += "<td style='background:red'>"+icnskull2+"</td>"; //discovered lvl2 monster
+              countZeroes += 1;
+            }else if (matrix[i][j] === 43) {
+              mapstring += "<td style='background:darkred'>"+icnskull3+"</td>"; //discovered lvl3 monster
+              countZeroes += 1;
+            }else if (matrix[i][j] === 5) {
+              mapstring += "<td style='background:green;text-align:center'>"+icnchest+"</td>"; //discovered chest
+            }
+          }
+          mapstring += "</tr>";
+        }
+        mapstring += "</table>"
+        //display map
+        document.getElementById("map").innerHTML = mapstring;
+        // recreate hud
+        redrawhud();
+        // check if dungeon has been fully explored. if so show win images and stop sound and game
+        if (reachableTileCounter - countZeroes == 0) {
+          gameHasStarted = false;
+          pauseAllAudio();
+
+          audiowin.play();
+          document.getElementById("map").innerHTML = "<div style='color:lightgreen;text-shadow: 1px 1px 2px #000000;'>Congratulations, you won!<p>However, more adventures await you!<p>Final Score:"+finalScore+"</div><p><button type='button' name='button' onclick='location.reload()' class='directionalbutton'>"+increstart+"</button>";
+          adventureLog += "You have explored the complete dungeon. There is nothing left to see here, time for another adventure.<br>";
+          document.getElementById("logDisplay").innerHTML = adventureLog;
+          document.getElementById("imgdisplay").innerHTML = imgwin2;
+        }
+    }
+    // this function rebuild the hud. we rebuild in case it changes
+    function redrawhud() {
+      var output = incstats+"<br>";
+      output += inclife+" ";
+      for (let i = 0; i < playerLives; i++) {
+        output += icnlifepoint+" ";
+      }
+      output += "<br>";
+      output += incmana+" ";
+      for (let i = 0; i < playerMana; i++) {
+        output += icnmanapoint+" ";
+      }
+      output += "<br>";
+      output += inclvl+" ";
+      for (let i = 0; i < playerLVL; i++) {
+        output += icnlvlpoint;
+      }
+      output += "<br>";
+      output += incprog+" ";
+      for (let i = 0; i < playerlvlP; i++) {
+        output += icnlvlpoint;
+      }
+      output += "<p></p>";
+
+      document.getElementById("hud").innerHTML = output;
+    }
+
+    // this stops all possible sounds that could play over the ending. it is called when the game ends
+    function pauseAllAudio(){
+      audioslime.pause();
+      audiohulk.pause();
+      audiodragon.pause();
+      audiotreasure.pause();
+      audiobgm.pause();
+      audiosteps.pause();
+    }
+
+  </script>
+
+<div id="preloader" style="display:none;">
+  <img src='images/Paladin30.png'><img src='images/Barbarian30.png'><img src='images/Thief30.png'><img src='images/Wizard30.png'>
+  <img src='images/Paladinbig.png'><img src='images/Barbarianbig.png'><img src='images/Thiefbig.png'><img src='images/Wizardbig.png'>
+  <img src='images/lvlpoint.png'><img src='images/lvlpoint.png'><img src='images/manapoint.png'><img src='images/lifepoint.png'>
+  <img src='images/Skull130.png'><img src='images/Skull230.png'><img src='images/Skull330.png'><img src='images/chest30.png'>
+  <img src='images/inventory.png'><img src='images/spell2.png'><img src='images/shield2.png'><img src='images/sword2.png'>
+  <img src='images/death1GO.jpeg'><img src='images/win1GO.jpeg'><img src='images/win2GO.jpeg'>
+  <img src='images/treasure1.jpeg'><img src='images/treasure2.jpeg'><img src='images/treasure3.jpeg'><img src='images/treasure4.jpeg'>
+  <img src='images/Monster1.jpeg'><img src='images/Monster2.jpeg'><img src='images/Monster3.jpeg'><img src='images/Monster4.jpeg'><img src='images/Monster5.jpeg'><img src='images/Monster6.jpeg'><img src='images/Monster7.jpeg'><img src='images/Monster8.jpeg'><img src='images/Monster9.jpeg'><img src='images/Monster10.jpeg'><img src='images/Monster12.jpeg'>
+  <img src='images/Monster11.jpeg'>
+  <img src='images/room5splatter.jpeg'>
+  <img src='images/entrance2ST.jpeg'><img src='images/entrance2.jpeg'>
+  <img src='images/room6.jpeg'><img src='images/room4.jpeg'><img src='images/room2.jpeg'><img src='images/room1.jpeg'><img src='images/room3.jpeg'>
+  <img src='images/bloodsplat.png'><img src='images/swordstrike.png'><img src='images/spellcast.png'><img src='images/gethealthpotion.png'><img src='images/getmanapotion.png'><img src='images/getsword.png'><img src='images/getshield.png'><img src='images/getspell.png'>
+  <img src='images/imgdarktile.png'><img src='images/imglighttile.png'><img src='images/imgwalltile.png'>
+</div>
+</body>
