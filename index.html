@@ -3,20 +3,26 @@
   <head>
     <style>
         body {
-          background: #666666;
-          color:#efefef;
-          font-family: 'Courier New', monospace;
+          background: #02133e;
+          color:#f9f9f9;
+          font-family: 'Consolas', monospace;
         }
         table{
           margin-left: auto;
           margin-right: auto;
-          text-align:center;
+          width:1000px;
           border: 0;
-        }
-        td {
-          border: 2px solid black;
           padding-left:20px;
           padding-right:20px;
+        }
+        td {
+          /*border: 2px solid #f9f9f9;
+          padding-left:20px;
+          padding-right:20px;*/
+          vertical-align: top;
+          border-bottom: 2px solid #f9f9f9;
+          padding-bottom:10px;
+          padding-top:10px;
         }
         a {
           color: yellow;
@@ -28,25 +34,49 @@
           text-decoration:underline;
           font-weight: bold;
         }
+        .imgcell{
+          width:320px
+        }
+        button {
+          width:100%;
+          background: #f1c232;
+          color: black;
+          vertical-align: center;
+          border-radius: 5px;
+          height:30px;
+          font-family: 'Calibri';
+          font-size:12pt;
+          border:1px solid black;
+        }
+        #wrapper{
+          margin-left: auto;
+          margin-right: auto;
+          width: 1000px;
+        }
     </style>
   </head>
   <body>
-    <center><img src="Images/TDZgameslogo.png">
+    <div id="wrapper">
+    <center><img src="Images/TDZgameslogov2.png"></center>
     <h1>Welcome TableDropZone's Virtual Game Gallery</h1>
     Enjoy the little games and join us on our YouTube channel <a href="https://www.youtube.com/@tabledropzone">https://www.youtube.com/@tabledropzone</a>, where we discuss this game and so much more!<p></p>
     <table>
-    <tr><td>
-      <h2>Lungeon</h2>
-      <a href="Lungeon/lungeon.html"><img src="Images/lungeon.jpg" alt="screenshot from lungeon"></a><br><br>
-      Our small tabletop game<br>reinterpreted as a video game.<p>
-      <a href="Lungeon/lungeon.html">Jump in</a></p>
+    <tr><td class="imgcell">
+      <a href="Lungeon/lungeon.html"><img src="Images/lungeon.jpg" alt="screenshot from lungeon"></a>
     </td><td>
+      <h2>Lungeon</h2>
+      Our small tabletop game reinterpreted as a video game. Chose a class and jump into a random dungeon crawling adventure right between your last meeting and that coffee waiting for you on your desk.<p>
+        <button type="button" name="button" onclick="location.href='Lungeon/lungeon.html'">Start Lungeon</button></p>
+    </td></tr>
+    <tr><td class="imgcell">
+      <a href="DeceptionSytems/deceptionsystems.html"><img src="Images/deceptionsystems.jpg" alt="screenshot from Deception Systems"></a>
+      </td><td>
       <h2>Deception Systems EP 1</h2>
-      <a href="DeceptionSytems/deceptionsystems.html"><img src="Images/deceptionsystems.jpg" alt="screenshot from Deception Systems"></a><br><br>
-      A small point and click closed room<br>murder mystery with voxel graphics.<p>
-      <a href="DeceptionSytems/deceptionsystems.html">Jump in</a></p>
+      A small point and click closed room murder mystery with voxel graphics. Are you ready for a voxel hunt? Can you unreavel the untimely death of a scientist?<p>
+        <button type="button" name="button" onclick="location.href='DeceptionSytems/deceptionsystems.html'">Start Deception Systems EP 1</button></p>
+        </p>
     </td></tr>
     </table>
-    </center>
+  </div>
   </body>
 </html>
