@@ -1,6 +1,6 @@
 # TDZ Games
 
-Enjoy the little game and join us on our YouTube channel https://www.youtube.com/@tabledropzone, where we discuss this game and so much more!
+Enjoy the little games and join us on our YouTube channel https://www.youtube.com/@tabledropzone, where we discuss games like these and so much more!
 
 To us games are another way to tell a story, very much on par with books, movies, painting/image creation, theatre, audioplays, music and other forms of story telling. Stroies are important as they build one of the most important foundations of any form of art, culture and society. However, stories can also just be fun and entertaining and still carry importance. 
 We want to add a small disclaimer here. While we strongly believe that all stories are important and should be conserved, not all stories are to be seen as having a positive impact. Conserving them is nontheless important for educational reasons. We can only improve our future if we don't forget or change the memory of our past.
