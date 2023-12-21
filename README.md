@@ -8,6 +8,8 @@ We want to add a small disclaimer here. While we strongly believe that all stori
 In an effort to create and tell our stories, we are tapping into many different types of media and experiemnt with many different concepts and ideas. This page is to be seen in conjunktion with our youtube channel, where we discuss whatever we publish here on these pages. Our github will be dedcated to ideas and experiments on different programmable aspects of storty telling. In better words, on this page we will present a collection of smaller games and other interactive media that we have created for you to enjoy. 
 Jump in and enjoy our stories :)
 
+imprint/Impressum: https://tabledropzone.com/imprint-2/
+
 Game 1: Welcome to Lungeon
 ==========================
 
@@ -20,7 +22,7 @@ Gettig started
 --------------
 
 To enter a dungeon click start and then choose a class. each class has different attributes:  
-  
+
 
 |     |     |     |     |
 | --- | --- | --- | --- |
@@ -48,7 +50,7 @@ You will battle monsters in 3 categories:
 | ![](Lungeon/images/Skull230.png) | Hulk: They only want to cuddle... I'm fairly certain |
 | ![](Lungeon/images/Skull330.png) | Dragon: This will leave a mark |
 
-  
+
 Every encounter locks the player into battle until it is initially resolved. If the player gets hurt, he can chose to avoid the monster for now and chose a different path. However, for leveling up the player will need to slay monsters.
 
 Levelup
